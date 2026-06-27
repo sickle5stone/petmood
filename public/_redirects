@@ -1,1 +1,2 @@
+# SPA fallback — Render serves existing files first; this only applies to missing paths.
 /*    /index.html   200
