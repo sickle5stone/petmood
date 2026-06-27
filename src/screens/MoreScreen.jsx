@@ -5,11 +5,12 @@ import {
   IcoHome, IcoScissors, IcoUsers, IcoPassport, IcoSprout,
   IcoMap, IcoLeash, IcoUser, IcoSparkles, IcoChevronRight, IcoHeartPulse
 } from '../components/icons'
+import { CatAvatar } from '../components/ui'
 
 const SECTION_ITEMS = [
   {
     section: 'Health & Medical',
-    color: '#fecaca',
+    color: '#fceee9',
     items: [
       { id: 'health', label: 'Health & Injury Log', desc: 'Track illness, injuries, symptoms', Icon: IcoHeartPulse, path: (id) => `/health/${id}` },
       { id: 'pharmacy', label: 'Pharmacy Log', desc: 'Medications & supplements', Icon: IcoPill, path: (id) => `/pharmacy/${id}` },
@@ -19,7 +20,7 @@ const SECTION_ITEMS = [
   },
   {
     section: 'Nutrition & Digestion',
-    color: '#ccebc7',
+    color: '#eef5ed',
     items: [
       { id: 'nutrition', label: 'Nutrition Lab', desc: 'Diet, portions, food log', Icon: IcoFlask, path: (id) => `/nutrition/${id}` },
       { id: 'litter', label: 'Litter & Digestive', desc: 'Elimination tracking', Icon: IcoLeaf, path: (id) => `/litter/${id}` },
@@ -27,7 +28,7 @@ const SECTION_ITEMS = [
   },
   {
     section: 'Behaviour & Training',
-    color: '#e9d5ff',
+    color: '#f3ecfb',
     items: [
       { id: 'training', label: 'Training Session Log', desc: 'Sessions, cues, progress', Icon: IcoBook, path: (id) => `/training/${id}` },
       { id: 'bond', label: 'Bond & Friction Log', desc: 'Relationship moments', Icon: IcoUser, path: (id) => `/bond/${id}` },
@@ -38,7 +39,7 @@ const SECTION_ITEMS = [
   },
   {
     section: 'Activity & Play',
-    color: '#bfdbfe',
+    color: '#edf4fb',
     items: [
       { id: 'play-lab', label: 'Play Lab', desc: 'Session log & toy library', Icon: IcoPlay, path: (id) => `/play-lab/${id}` },
       { id: 'outdoor', label: 'Outdoor Confidence Map', desc: 'Exploration milestones', Icon: IcoMap, path: (id) => `/outdoor/${id}` },
@@ -46,7 +47,7 @@ const SECTION_ITEMS = [
   },
   {
     section: 'Life & Identity',
-    color: '#fde68a',
+    color: '#fdf3e8',
     items: [
       { id: 'life-stage', label: 'Life Stage & Longevity', desc: 'Age milestones, projections', Icon: IcoSprout, path: (id) => `/life-stage/${id}` },
       { id: 'gallery', label: 'Cat Photo Gallery', desc: 'Photo timeline', Icon: IcoCamera3, path: (id) => `/gallery/${id}` },
@@ -65,7 +66,7 @@ const SECTION_ITEMS = [
   },
   {
     section: 'Stitch AI',
-    color: 'linear-gradient(135deg, #e89a3c22, #9b59b622)',
+    color: '#fdf3e8',
     items: [
       { id: 'ai-companion', label: 'Stitch AI Companion', desc: 'Chat, ask, get insights', Icon: IcoSparkles, path: (id) => `/ai-companion/${id}` },
     ],
@@ -85,41 +86,40 @@ function useCatId() {
 export default function MoreScreen({ cats }) {
   const navigate = useNavigate()
   const catId = useCatId()
-  const allCats = cats?.length > 0 ? cats : [{ id: '__luna', name: 'Luna', emoji: '🐱' }]
+  const allCats = cats?.length > 0 ? cats : [{ id: '__luna', name: 'Luna' }]
   const cat = allCats.find((c) => c.id === catId) ?? allCats[0]
 
   return (
-    <div className="min-h-svh bg-surface flex flex-col pt-safe page-enter pb-28">
-      {/* Header */}
-      <div className="px-5 py-4">
-        <p className="text-xs text-on-surface-muted font-medium">{cat.name}'s Tools</p>
-        <h1 className="text-xl font-semibold text-on-surface">All Features</h1>
+    <div className="pm-page pb-nav">
+      <div className="px-5 py-4 flex items-center gap-3">
+        <CatAvatar name={cat.name} size="md" />
+        <div>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name}'s tools</p>
+          <h1 className="pm-title">All Features</h1>
+        </div>
       </div>
 
       <div className="flex flex-col gap-6 px-5">
         {SECTION_ITEMS.map((group) => (
           <div key={group.section}>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">
-              {group.section}
-            </p>
-            <div className="bg-white rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.04)] overflow-hidden">
-              {group.items.map((item, i) => (
+            <p className="pm-label mb-2">{group.section}</p>
+            <div className="pm-card overflow-hidden p-0">
+              {group.items.map((item) => (
                 <button
                   key={item.id}
+                  type="button"
                   onClick={() => navigate(item.path(catId))}
-                  className={`w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-surface-container/50 active:scale-[0.99] transition-all ${
-                    i < group.items.length - 1 ? 'border-b border-surface-container' : ''
-                  }`}
+                  className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-surface-container/50 active:scale-[0.995] transition-all duration-150 border-b border-border-subtle last:border-0"
                 >
                   <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                    className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 border border-border-subtle"
                     style={{ background: group.color }}
                   >
-                    <item.Icon size={18} color="#1b1b1d" />
+                    <item.Icon size={18} color="#524436" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-on-surface leading-snug">{item.label}</p>
-                    <p className="text-[11px] text-on-surface-muted">{item.desc}</p>
+                    <p className="text-sm font-semibold text-on-surface leading-snug tracking-tight">{item.label}</p>
+                    <p className="text-caption text-on-surface-muted">{item.desc}</p>
                   </div>
                   <IcoChevronRight size={16} color="#857464" />
                 </button>

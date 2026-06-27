@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getReadsLocal, computeBaseline } from '../dataService'
-import { BackButton } from '../components/ui'
-import { IcoClipboard, IcoTarget, IcoCalendar, IcoBarChart as IcoBarChartIcon, IcoZap, IcoPawPrint, IcoMoon, IcoTrending } from '../components/icons'
+import { BackButton, CatAvatar, EmptyState } from '../components/ui'
+import { IcoClipboard, IcoTarget, IcoCalendar, IcoBarChart as IcoBarChartIcon, IcoZap, IcoPawPrint, IcoMoon, IcoTrending, IcoSun } from '../components/icons'
 
 const MOOD_COLORS = {
   Relaxed: '#ccebc7', Calm: '#ccebc7', Serene: '#ccebc7',
@@ -40,16 +40,16 @@ function BarChart({ data, maxVal }) {
   )
 }
 
-function StatCard({ Icon, label, value, sub, accent }) {
+function StatCardLocal({ Icon, label, value, sub, accent }) {
   return (
-    <div className="bg-white rounded-2xl px-4 py-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+    <div className="pm-card px-4 py-4">
       <div className="flex items-center gap-2 mb-2">
         {Icon && <Icon size={14} color="#857464" />}
-        <span className="text-[11px] font-semibold uppercase tracking-widest text-on-surface-muted">{label}</span>
+        <span className="pm-label">{label}</span>
       </div>
-      <p className="text-2xl font-semibold text-on-surface">{value}</p>
-      {sub && <p className="text-xs text-on-surface-muted mt-0.5">{sub}</p>}
-      {accent && <p className="text-xs text-secondary font-medium mt-1">{accent}</p>}
+      <p className="text-2xl font-semibold text-on-surface tracking-tight">{value}</p>
+      {sub && <p className="text-caption text-on-surface-muted mt-0.5">{sub}</p>}
+      {accent && <p className="text-caption text-secondary font-medium mt-1">{accent}</p>}
     </div>
   )
 }
@@ -79,7 +79,7 @@ export default function MoodInsightsScreen({ cats }) {
   const [loading, setLoading] = useState(true)
   const [reads, setReads] = useState([])
 
-  const allCats = cats?.length > 0 ? cats : [{ id: '__luna', name: 'Luna', emoji: '🐱' }]
+  const allCats = cats?.length > 0 ? cats : [{ id: '__luna', name: 'Luna' }]
   const cat = allCats.find((c) => c.id === catId) ?? allCats[0]
 
   useEffect(() => {
@@ -170,44 +170,37 @@ export default function MoodInsightsScreen({ cats }) {
   const empty = reads.length === 0
 
   return (
-    <div className="min-h-svh bg-surface flex flex-col pt-safe page-enter pb-24">
-      {/* Header */}
+    <div className="pm-page pb-nav">
       <div className="flex items-center gap-3 px-5 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1 min-w-0">
-          <h1 className="font-semibold text-on-surface">{cat.name}'s Insights</h1>
-          <p className="text-xs text-on-surface-muted">Mood & Behaviour Trends</p>
+          <h1 className="pm-title">{cat.name}'s Insights</h1>
+          <p className="text-caption text-on-surface-muted">Mood & Behaviour Trends</p>
         </div>
-        <span className="text-xl">{cat.emoji}</span>
+        <CatAvatar name={cat.name} size="md" />
       </div>
 
       {empty ? (
-        <div className="flex flex-col items-center justify-center gap-4 text-center px-8 pb-20 flex-1">
-          <div className="w-16 h-16 rounded-2xl bg-surface-container flex items-center justify-center mx-auto">
-            <IcoBarChartIcon size={28} color="#857464" />
-          </div>
-          <p className="text-lg font-semibold text-on-surface">Not enough data yet</p>
-          <p className="text-sm text-on-surface-muted">Record at least 3–5 reads to unlock behavioural insights for {cat.name}.</p>
-          <button
-            onClick={() => navigate('/')}
-            className="mt-2 px-6 py-3 rounded-full bg-primary-container text-white text-sm font-semibold active:scale-95 transition-transform"
-          >
-            Start a read
-          </button>
-        </div>
+        <EmptyState
+          icon={IcoBarChartIcon}
+          title="Not enough data yet"
+          description={`Record at least 3–5 reads to unlock behavioural insights for ${cat.name}.`}
+          actionLabel="Start a read"
+          onAction={() => navigate('/')}
+        />
       ) : (
         <div className="flex flex-col gap-5 px-5">
           {/* Overview stats */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Overview</p>
+            <p className="pm-label mb-3">Overview</p>
             <div className="grid grid-cols-2 gap-3">
-              <StatCard
+              <StatCardLocal
                 Icon={IcoClipboard} label="Total Reads"
                 value={reads.length}
                 sub={`${last7.length} this week`}
               />
               {baseline?.topFeeling && (
-                <StatCard
+                <StatCardLocal
                   Icon={IcoPawPrint} label="Most Common Mood"
                   value={baseline.topFeeling.split(' ')[0]}
                   sub={`${baseline.topFeelingPct}% of reads`}
@@ -215,14 +208,14 @@ export default function MoodInsightsScreen({ cats }) {
                 />
               )}
               {avgConf && (
-                <StatCard
+                <StatCardLocal
                   Icon={IcoTarget} label="Avg Read Quality"
                   value={avgConf}
                   sub="Across all reads"
                 />
               )}
               {last30.length > 0 && (
-                <StatCard
+                <StatCardLocal
                   Icon={IcoCalendar} label="Last 30 Days"
                   value={last30.length}
                   sub="reads recorded"
@@ -231,11 +224,10 @@ export default function MoodInsightsScreen({ cats }) {
             </div>
           </div>
 
-          {/* Feeling distribution bar chart */}
           {feelingDist.length > 0 && (
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Mood Distribution</p>
-              <div className="bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+              <p className="pm-label mb-3">Mood Distribution</p>
+              <div className="pm-card p-4">
                 <BarChart data={feelingDist} maxVal={maxFeelingCount} />
                 <div className="mt-4 flex flex-col gap-2">
                   {feelingDist.map(({ label, value }) => (
@@ -256,8 +248,8 @@ export default function MoodInsightsScreen({ cats }) {
           {/* Behaviour trends */}
           {activityDist.length > 0 && (
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Behaviour Trends</p>
-              <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+              <p className="pm-label mb-3">Behaviour Trends</p>
+              <div className="pm-card px-4">
                   {activityDist.map(([activity, count], i) => (
                     <TrendRow
                       key={activity}
@@ -273,18 +265,18 @@ export default function MoodInsightsScreen({ cats }) {
 
           {/* Time-of-day pattern */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Time of Day Pattern</p>
-            <div className="bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <p className="pm-label mb-3">Time of Day Pattern</p>
+            <div className="pm-card p-4">
               <p className="text-sm text-on-surface-muted mb-3">
                 Most active recording time: <span className="font-semibold text-on-surface">{timeOfDayBreakdown.peak}</span>
               </p>
               <div className="flex gap-2">
                 {Object.entries(timeOfDayBreakdown.buckets).map(([slot, count]) => {
-                  const icons = { Morning: '🌅', Afternoon: '☀️', Evening: '🌇', Night: '🌙' }
+                  const SlotIcon = { Morning: IcoSun, Afternoon: IcoSun, Evening: IcoTrending, Night: IcoMoon }[slot] ?? IcoSun
                   const width = timeOfDayBreakdown.max > 0 ? Math.max(8, (count / timeOfDayBreakdown.max) * 100) : 8
                   return (
                     <div key={slot} className="flex-1 flex flex-col gap-1.5">
-                      <span className="text-base text-center block">{icons[slot]}</span>
+                      <div className="flex justify-center"><SlotIcon size={16} color="#857464" /></div>
                       <div className="bg-surface-container rounded-full overflow-hidden h-1.5">
                         <div
                           className="h-full bg-primary-container rounded-full transition-all duration-700"
@@ -302,8 +294,8 @@ export default function MoodInsightsScreen({ cats }) {
 
           {/* Confidence over time */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Recent Read Quality</p>
-            <div className="bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <p className="pm-label mb-3">Recent Read Quality</p>
+            <div className="pm-card p-4">
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {reads.slice(0, 10).reverse().map((r, _i) => {
                   const confColors = { high: '#ccebc7', medium: '#fde68a', low: '#fecaca' }

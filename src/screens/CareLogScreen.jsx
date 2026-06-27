@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { BackButton } from '../components/ui'
+import { BackButton, CatAvatar } from '../components/ui'
 import { IcoBowl, IcoDroplets, IcoPlay, IcoScissors, IcoMoon, IcoStethoscope, IcoClipboard } from '../components/icons'
 
 const LS_CARE_KEY = (catId) => `petmood_care_${catId}`
@@ -63,7 +63,7 @@ function GoalRing({ value, max, color, size = 60 }) {
 function GoalCard({ Icon, label, value, max, unit, color, onAdd }) {
   const pct = Math.min(Math.round((value / max) * 100), 100)
   return (
-    <div className="bg-white rounded-2xl px-4 py-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)] flex items-center gap-4">
+    <div className="bg-white rounded-2xl px-4 py-4 shadow-card border border-border flex items-center gap-4">
       <div className="relative flex items-center justify-center flex-shrink-0">
         <GoalRing value={value} max={max} color={color} />
         <div className="absolute">
@@ -113,7 +113,7 @@ function LogEntry({ entry }) {
 export default function CareLogScreen({ cats }) {
   const navigate = useNavigate()
   const { catId } = useParams()
-  const allCats = cats?.length > 0 ? cats : [{ id: '__luna', name: 'Luna', emoji: '🐱' }]
+  const allCats = cats?.length > 0 ? cats : [{ id: '__luna', name: 'Luna' }]
   const cat = allCats.find((c) => c.id === catId) ?? allCats[0]
 
   const [goals, setGoals] = useState(defaultGoals())
@@ -169,15 +169,14 @@ export default function CareLogScreen({ cats }) {
           <h1 className="font-semibold text-on-surface">Care Log</h1>
           <p className="text-xs text-on-surface-muted">{todayStr}</p>
         </div>
-        <span className="text-xl">{cat.emoji}</span>
+        <CatAvatar name={cat.name} size="md" />
       </div>
 
       <div className="flex flex-col gap-5 px-5">
-        {/* Next feeding banner */}
         {minsToNextMeal !== null && minsToNextMeal > 0 && (
-          <div className="bg-white rounded-2xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.04)] flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-primary-container/10 flex items-center justify-center text-2xl">
-              🍽️
+          <div className="pm-card p-4 flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-primary-container/10 border border-border-subtle flex items-center justify-center flex-shrink-0">
+              <IcoBowl size={22} color="#895200" />
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-primary-container">Next Feeding</p>

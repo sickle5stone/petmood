@@ -1,16 +1,8 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getReadsLocal, computeBaseline } from '../dataService'
-import { BackButton } from '../components/ui'
-
-const MOOD_EMOJI = { Relaxed: '😌', Calm: '😌', Happy: '😸', Playful: '😸', Anxious: '😰', Stressed: '😟', Active: '⚡', Tired: '😴', Cozy: '🛋️', Serene: '😇' }
-function getMoodEmoji(feeling) {
-  if (!feeling) return '🐱'
-  for (const [key, emoji] of Object.entries(MOOD_EMOJI)) {
-    if (feeling.toLowerCase().includes(key.toLowerCase())) return emoji
-  }
-  return '😸'
-}
+import { BackButton, CatAvatar, MoodBadge, EmptyState, StatCard } from '../components/ui'
+import { IcoCalendar, IcoSparkles, IcoTarget, IcoTrending, IcoStar, IcoPawPrint } from '../components/icons'
 
 const DAYS_SHORT = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
@@ -21,19 +13,23 @@ function getWeekLabel() {
   return `${fmt(start)} – ${fmt(now)}`
 }
 
-function FindingCard({ icon, title, detail, badge, badgeColor = 'bg-secondary-container text-secondary' }) {
+function FindingCard({ Icon, title, detail, badge, badgeColor = 'bg-secondary-container text-secondary' }) {
   return (
-    <div className="bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+    <div className="pm-card p-4">
       <div className="flex items-start gap-3">
-        <span className="text-2xl mt-0.5">{icon}</span>
+        {Icon && (
+          <div className="w-9 h-9 rounded-xl bg-surface-container border border-border-subtle flex items-center justify-center flex-shrink-0 mt-0.5">
+            <Icon size={18} color="#857464" />
+          </div>
+        )}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1 flex-wrap">
-            <p className="text-sm font-semibold text-on-surface">{title}</p>
+            <p className="text-sm font-semibold text-on-surface tracking-tight">{title}</p>
             {badge && (
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold ${badgeColor}`}>{badge}</span>
+              <span className={`px-2 py-0.5 rounded-full text-2xs font-semibold ${badgeColor}`}>{badge}</span>
             )}
           </div>
-          <p className="text-xs text-on-surface-muted leading-relaxed">{detail}</p>
+          <p className="text-caption text-on-surface-muted leading-relaxed">{detail}</p>
         </div>
       </div>
     </div>
@@ -43,17 +39,17 @@ function FindingCard({ icon, title, detail, badge, badgeColor = 'bg-secondary-co
 function DayRow({ day, reads }) {
   const primary = reads[0]
   return (
-    <div className="flex items-center gap-3 py-2.5 border-b border-surface-container last:border-0">
-      <span className="text-xs font-semibold text-on-surface-muted w-8 flex-shrink-0">{day}</span>
+    <div className="flex items-center gap-3 py-3 border-b border-border-subtle last:border-0">
+      <span className="text-2xs font-semibold text-on-surface-muted w-8 flex-shrink-0">{day}</span>
       {primary ? (
         <>
-          <span className="text-base">{getMoodEmoji(primary.feeling)}</span>
+          <MoodBadge feeling={primary.feeling} size="sm" />
           <div className="flex-1 min-w-0">
-            <p className="text-sm text-on-surface font-medium truncate">{primary.feeling}</p>
-            <p className="text-[11px] text-on-surface-muted truncate">{primary.activity}</p>
+            <p className="text-sm text-on-surface font-medium truncate tracking-tight">{primary.feeling}</p>
+            <p className="text-caption text-on-surface-muted truncate">{primary.activity}</p>
           </div>
           {reads.length > 1 && (
-            <span className="text-[11px] text-on-surface-muted flex-shrink-0">+{reads.length - 1}</span>
+            <span className="text-caption text-on-surface-muted flex-shrink-0">+{reads.length - 1}</span>
           )}
         </>
       ) : (
@@ -69,7 +65,7 @@ export default function WeeklyInsightsScreen({ cats }) {
   const [loading, setLoading] = useState(true)
   const [reads, setReads] = useState([])
 
-  const allCats = cats?.length > 0 ? cats : [{ id: '__luna', name: 'Luna', emoji: '🐱' }]
+  const allCats = cats?.length > 0 ? cats : [{ id: '__luna', name: 'Luna' }]
   const cat = allCats.find((c) => c.id === catId) ?? allCats[0]
 
   useEffect(() => {
@@ -133,7 +129,7 @@ export default function WeeklyInsightsScreen({ cats }) {
     const f = []
     if (dominantMood) {
       f.push({
-        icon: getMoodEmoji(dominantMood),
+        Icon: IcoPawPrint,
         title: `Dominant mood: ${dominantMood}`,
         detail: `${dominantMood} appeared ${weekMoodDist[0][1]} time${weekMoodDist[0][1] !== 1 ? 's' : ''} this week — the most common state observed.`,
         badge: `${weekMoodDist[0][1]} reads`,
@@ -142,7 +138,7 @@ export default function WeeklyInsightsScreen({ cats }) {
     }
     if (uniqueMoods > 3) {
       f.push({
-        icon: '🌈',
+        Icon: IcoSparkles,
         title: 'Varied emotional range',
         detail: `${cat.name} showed ${uniqueMoods} distinct moods this week. Variation is normal — watch for patterns.`,
         badge: `${uniqueMoods} moods`,
@@ -151,7 +147,7 @@ export default function WeeklyInsightsScreen({ cats }) {
     }
     if (highConfReads > 0) {
       f.push({
-        icon: '🎯',
+        Icon: IcoTarget,
         title: 'High-confidence reads',
         detail: `${highConfReads} of this week's reads had high confidence — reliable behavioural data to build on.`,
         badge: `${highConfReads} high`,
@@ -160,7 +156,7 @@ export default function WeeklyInsightsScreen({ cats }) {
     }
     if (moodChange === 'up') {
       f.push({
-        icon: '📈',
+        Icon: IcoTrending,
         title: 'More active this week',
         detail: `You recorded ${last7.length} reads this week vs ${prev7.length} the week before. Great consistency!`,
         badge: 'Trending up',
@@ -169,7 +165,7 @@ export default function WeeklyInsightsScreen({ cats }) {
     }
     if (f.length === 0) {
       f.push({
-        icon: '💡',
+        Icon: IcoStar,
         title: 'Keep building your baseline',
         detail: `The more reads you log, the more accurate the weekly insights become. Aim for 3+ reads this week.`,
         badgeColor: '',
@@ -179,44 +175,38 @@ export default function WeeklyInsightsScreen({ cats }) {
   }, [last7, prev7, dominantMood, weekMoodDist, uniqueMoods, highConfReads, moodChange, cat.name])
 
   return (
-    <div className="min-h-svh bg-surface flex flex-col pt-safe page-enter pb-24">
-      {/* Header */}
+    <div className="pm-page pb-nav">
       <div className="flex items-center gap-3 px-5 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1 min-w-0">
-          <h1 className="font-semibold text-on-surface">Weekly Digest</h1>
-          <p className="text-xs text-on-surface-muted">{getWeekLabel()}</p>
+          <h1 className="pm-title">Weekly Digest</h1>
+          <p className="text-caption text-on-surface-muted">{getWeekLabel()}</p>
         </div>
-        <span className="text-xl">{cat.emoji}</span>
+        <CatAvatar name={cat.name} size="md" />
       </div>
 
       {loading ? (
-        <div className="flex flex-col gap-4 px-5">
-          {[1, 2, 3].map((i) => <div key={i} className="bg-surface-container rounded-2xl h-24 animate-pulse" />)}
+        <div className="flex flex-col gap-3 px-5">
+          {[1, 2, 3].map((i) => <div key={i} className="pm-card-inset h-24 animate-pulse" />)}
         </div>
       ) : last7.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-8 pb-20">
-          <span className="text-5xl">📅</span>
-          <p className="text-lg font-semibold text-on-surface">No reads this week yet</p>
-          <p className="text-sm text-on-surface-muted">Record {cat.name}'s moments throughout the week to unlock your weekly digest.</p>
-          <button
-            onClick={() => navigate('/')}
-            className="mt-2 px-6 py-3 rounded-full bg-primary-container text-white text-sm font-semibold active:scale-95 transition-transform"
-          >
-            Start a read
-          </button>
-        </div>
+        <EmptyState
+          icon={IcoCalendar}
+          title="No reads this week yet"
+          description={`Record ${cat.name}'s moments throughout the week to unlock your weekly digest.`}
+          actionLabel="Start a read"
+          onAction={() => navigate('/')}
+        />
       ) : (
         <div className="flex flex-col gap-5 px-5">
-          {/* Week hero */}
-          <div className="bg-white rounded-3xl p-5 shadow-[0_4px_24px_rgba(0,0,0,0.05)] relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-secondary-container/20 to-transparent pointer-events-none rounded-3xl" />
+          <div className="pm-card-lg p-5 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-secondary-container/20 to-transparent pointer-events-none" />
             <div className="relative">
-              <p className="text-xs font-semibold uppercase tracking-widest text-primary-container mb-1">Stitch Weekly Digest</p>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-3xl">{getMoodEmoji(dominantMood)}</span>
+              <p className="pm-label text-primary-container mb-2">Stitch Weekly Digest</p>
+              <div className="flex items-start gap-3 mb-2">
+                {dominantMood && <MoodBadge feeling={dominantMood} size="lg" />}
                 <div>
-                  <p className="text-xl font-semibold text-on-surface">{last7.length} reads logged</p>
+                  <p className="text-xl font-semibold text-on-surface tracking-tight">{last7.length} reads logged</p>
                   <p className="text-sm text-on-surface-muted">
                     {dominantMood ? `Mostly ${dominantMood}` : 'This week'}
                   </p>
@@ -237,25 +227,14 @@ export default function WeeklyInsightsScreen({ cats }) {
             </div>
           </div>
 
-          {/* Summary stats */}
           <div className="grid grid-cols-3 gap-3">
-            <div className="bg-white rounded-2xl p-3 shadow-[0_2px_8px_rgba(0,0,0,0.04)] text-center">
-              <p className="text-2xl font-semibold text-on-surface">{last7.length}</p>
-              <p className="text-[10px] text-on-surface-muted">Reads</p>
-            </div>
-            <div className="bg-white rounded-2xl p-3 shadow-[0_2px_8px_rgba(0,0,0,0.04)] text-center">
-              <p className="text-2xl font-semibold text-on-surface">{uniqueMoods}</p>
-              <p className="text-[10px] text-on-surface-muted">Moods seen</p>
-            </div>
-            <div className="bg-white rounded-2xl p-3 shadow-[0_2px_8px_rgba(0,0,0,0.04)] text-center">
-              <p className="text-2xl font-semibold text-on-surface">{highConfReads}</p>
-              <p className="text-[10px] text-on-surface-muted">High conf.</p>
-            </div>
+            <StatCard label="Reads" value={`${last7.length}`} />
+            <StatCard label="Moods seen" value={`${uniqueMoods}`} />
+            <StatCard label="High conf." value={`${highConfReads}`} />
           </div>
 
-          {/* Key findings */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Key Findings</p>
+            <p className="pm-label mb-3">Key Findings</p>
             <div className="flex flex-col gap-3">
               {findings.map((f, i) => (
                 <FindingCard key={i} {...f} />
@@ -263,20 +242,20 @@ export default function WeeklyInsightsScreen({ cats }) {
             </div>
           </div>
 
-          {/* Day-by-day breakdown */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Day by Day</p>
-            <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <p className="pm-label mb-3">Day by Day</p>
+            <div className="pm-card px-4">
               {dayBreakdown.map(({ day, reads: dayReads }) => (
                 <DayRow key={day} day={day} reads={dayReads} />
               ))}
             </div>
           </div>
 
-          {/* Stitch suggestion */}
-          <div className="bg-gradient-to-br from-primary-container/10 to-secondary-container/20 rounded-2xl p-4 border border-primary-container/20">
+          <div className="pm-card-inset p-4 bg-gradient-to-br from-primary-container/8 to-secondary-container/15 border-primary-container/15">
             <div className="flex items-start gap-3">
-              <span className="text-2xl">✨</span>
+              <div className="w-9 h-9 rounded-xl bg-primary-container/15 flex items-center justify-center flex-shrink-0">
+                <IcoSparkles size={18} color="#895200" />
+              </div>
               <div>
                 <p className="text-sm font-semibold text-on-surface mb-1">Stitch Suggestion</p>
                 <p className="text-xs text-on-surface-muted leading-relaxed">

@@ -1,38 +1,39 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { analyzeVideo } from '../analysisService'
+import { ProgressStep, PillButton, CatAvatar } from '../components/ui'
+import { IcoPawPrint, IcoUsers, IcoClock, IcoMoon, IcoAlertCircle } from '../components/icons'
 
 const STEPS = [
-  'Sampling keyframes…',
-  'Listening for vocalisations…',
-  'Reading posture and motion…',
-  'Synthesising read…',
+  'Sampling keyframes',
+  'Listening for vocalisations',
+  'Reading posture and motion',
+  'Synthesising read',
 ]
 
-/** Maps AnalysisError types to user-facing copy + next action. */
 const ERROR_COPY = {
   NO_CAT: {
-    icon: '🔍',
+    Icon: IcoPawPrint,
     title: 'No cat detected',
     body: 'Make sure your cat is clearly in frame — try zooming in a little.',
   },
   MULTIPLE_CATS: {
-    icon: '🐱🐱',
+    Icon: IcoUsers,
     title: 'Multiple cats in view',
     body: 'Reads work best for one cat at a time. Try a clip with just one cat in frame.',
   },
   TOO_SHORT: {
-    icon: '⏱',
+    Icon: IcoClock,
     title: 'Clip too short',
     body: 'Aim for 3–5 seconds — long enough to catch a posture and a moment.',
   },
   UNREADABLE: {
-    icon: '🌑',
+    Icon: IcoMoon,
     title: "Couldn't read this clip",
     body: 'The clip may be too dark, blurry, or noisy. Try better light or a steadier angle.',
   },
   GENERIC: {
-    icon: '⚡',
+    Icon: IcoAlertCircle,
     title: 'Analysis failed',
     body: 'Something went wrong. Check your connection and try again.',
   },
@@ -42,7 +43,7 @@ export default function AnalyzingScreen() {
   const { state } = useLocation()
   const navigate  = useNavigate()
   const [stepIndex, setStepIndex] = useState(0)
-  const [error, setError]         = useState(null) // null | { type, icon, title, body }
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     if (!state?.file) {
@@ -71,28 +72,28 @@ export default function AnalyzingScreen() {
       })
 
     return () => clearInterval(interval)
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Error state ──────────────────────────────────────────────────────────────
   if (error) {
+    const ErrIcon = error.Icon
     return (
-      <div className="min-h-svh bg-surface flex flex-col items-center justify-center px-5 gap-8 page-enter">
-        <div className="flex flex-col items-center gap-4 text-center max-w-xs">
-          <span className="text-5xl">{error.icon}</span>
-          <h2 className="text-xl font-semibold text-on-surface">{error.title}</h2>
+      <div className="pm-page pm-page-tight flex flex-col items-center justify-center gap-8">
+        <div className="pm-card-lg p-8 flex flex-col items-center gap-4 text-center max-w-sm w-full">
+          <div className="w-14 h-14 rounded-2xl bg-tertiary-container/15 border border-border-subtle flex items-center justify-center">
+            <ErrIcon size={28} color="#964735" />
+          </div>
+          <h2 className="text-xl font-semibold text-on-surface tracking-tight">{error.title}</h2>
           <p className="text-sm text-on-surface-muted leading-relaxed">{error.body}</p>
         </div>
 
-        <div className="flex flex-col gap-3 w-full max-w-xs">
-          <button
-            onClick={() => navigate('/', { replace: true })}
-            className="w-full py-3.5 rounded-full bg-primary-container text-white text-sm font-semibold active:scale-95 transition-transform shadow-sm"
-          >
+        <div className="flex flex-col gap-3 w-full max-w-sm">
+          <PillButton className="w-full" onClick={() => navigate('/', { replace: true })}>
             Try a different clip
-          </button>
+          </PillButton>
           <button
+            type="button"
             onClick={() => navigate(-1)}
-            className="w-full py-3 rounded-full text-sm text-on-surface-muted hover:text-on-surface transition-colors"
+            className="w-full py-3 rounded-full text-sm font-medium text-on-surface-muted hover:text-on-surface transition-colors"
           >
             Go back
           </button>
@@ -101,48 +102,38 @@ export default function AnalyzingScreen() {
     )
   }
 
-  // ── Analysing state ──────────────────────────────────────────────────────────
   return (
-    <div className="min-h-svh bg-surface flex flex-col items-center justify-center px-5 gap-10 page-enter">
-      {/* Pulsing indicator */}
+    <div className="pm-page pm-page-tight flex flex-col items-center justify-center gap-10 pb-nav">
       <div className="relative flex items-center justify-center">
-        <div className="absolute w-32 h-32 rounded-full bg-primary-container/20 animate-ping" style={{ animationDuration: '1.5s' }} />
-        <div className="absolute w-24 h-24 rounded-full bg-primary-container/25 animate-pulse" />
-        <span className="text-6xl z-10">🐱</span>
+        <span className="absolute w-28 h-28 rounded-full bg-primary-container/15 record-ring" />
+        <span className="absolute w-20 h-20 rounded-full bg-primary-container/20 animate-pulse" />
+        <CatAvatar name={state?.catName ?? '?'} size="lg" className="!w-20 !h-20 !text-2xl z-10" />
       </div>
 
-      {/* Progress steps */}
-      <div className="flex flex-col items-center gap-4 text-center">
-        <p className="text-xl font-semibold text-on-surface">Reading the moment…</p>
-        <div className="flex flex-col gap-2 w-full max-w-xs">
+      <div className="flex flex-col items-center gap-5 text-center w-full max-w-xs">
+        <div>
+          <p className="pm-label text-primary-container mb-1">Analysing</p>
+          <p className="text-xl font-semibold text-on-surface tracking-tight">Reading the moment…</p>
+        </div>
+        <div className="flex flex-col gap-2 w-full">
           {STEPS.map((label, i) => (
-            <div
+            <ProgressStep
               key={label}
-              className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-400 ${
-                i === stepIndex
-                  ? 'bg-primary-container/15 text-on-surface'
-                  : i < stepIndex
-                  ? 'text-secondary opacity-60'
-                  : 'text-on-surface-muted opacity-25'
-              }`}
-            >
-              <span className="text-base w-4 text-center">
-                {i < stepIndex ? '✓' : i === stepIndex ? '…' : '○'}
-              </span>
-              <span className="text-sm font-medium">{label}</span>
-            </div>
+              label={label}
+              status={i < stepIndex ? 'done' : i === stepIndex ? 'active' : 'pending'}
+            />
           ))}
         </div>
       </div>
 
       {state?.catName && (
         <p className="text-sm text-on-surface-muted">
-          Analysing clip for <strong>{state.catName}</strong>
+          Clip for <span className="font-semibold text-on-surface">{state.catName}</span>
         </p>
       )}
 
-      <p className="text-xs text-on-surface-muted/60 text-center max-w-xs">
-        This is a behavioural read — not a diagnosis.
+      <p className="text-caption text-on-surface-muted/70 text-center max-w-xs">
+        Behavioural read — not a diagnosis
       </p>
     </div>
   )

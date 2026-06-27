@@ -1,28 +1,22 @@
 import { useState } from 'react'
 import { saveFeedback } from '../dataService'
+import { IcoCheck, IcoStar, IcoAlertCircle, IcoX } from '../components/icons'
 
 const OPTIONS = [
-  { id: 'accurate', label: 'Spot on', icon: '✓' },
-  { id: 'useful',   label: 'Useful',  icon: '👍' },
-  { id: 'unsure',   label: 'Not sure', icon: '~' },
-  { id: 'wrong',    label: 'Off',     icon: '✗' },
+  { id: 'accurate', label: 'Spot on', Icon: IcoCheck },
+  { id: 'useful',   label: 'Useful',  Icon: IcoStar },
+  { id: 'unsure',   label: 'Not sure', Icon: IcoAlertCircle },
+  { id: 'wrong',    label: 'Off',     Icon: IcoX },
 ]
 
-/**
- * Collects a one-tap rating + optional note after each read.
- * Persists to localStorage immediately; attempts Firestore in background.
- *
- * @param {{ readId: string, catId: string }} props
- */
 export default function FeedbackWidget({ readId, catId }) {
-  const [stage, setStage] = useState('prompt') // 'prompt' | 'note' | 'done'
+  const [stage, setStage] = useState('prompt')
   const [selected, setSelected] = useState(null)
-  const [note, setNote]   = useState('')
+  const [note, setNote] = useState('')
 
   async function handleSelect(id) {
     setSelected(id)
     setStage('note')
-    // Optimistic — fire and forget; note may arrive in the next step
     saveFeedback({ readId, catId, rating: id, note: '' }).catch(() => {})
   }
 
@@ -35,7 +29,7 @@ export default function FeedbackWidget({ readId, catId }) {
 
   if (stage === 'done') {
     return (
-      <p className="text-center text-xs text-on-surface-muted py-2 fade-in">
+      <p className="text-center text-caption text-on-surface-muted py-2 fade-in">
         Thanks for the feedback
       </p>
     )
@@ -43,8 +37,8 @@ export default function FeedbackWidget({ readId, catId }) {
 
   if (stage === 'note') {
     return (
-      <div className="flex flex-col gap-2 fade-in">
-        <p className="text-xs text-on-surface-muted text-center">Anything to add? (optional)</p>
+      <div className="pm-card-inset p-4 flex flex-col gap-3 fade-in">
+        <p className="text-caption text-on-surface-muted text-center">Anything to add? (optional)</p>
         <div className="flex gap-2">
           <input
             autoFocus
@@ -52,18 +46,20 @@ export default function FeedbackWidget({ readId, catId }) {
             onChange={(e) => setNote(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSubmitNote()}
             placeholder="What was off?"
-            className="flex-1 px-3 py-2 rounded-xl text-sm bg-surface-container outline-none focus:ring-2 ring-primary-container/40 placeholder:text-on-surface-muted/50"
+            className="flex-1 px-3 py-2.5 rounded-xl text-sm bg-white border border-border outline-none focus:ring-2 focus:ring-primary-container/40 placeholder:text-on-surface-muted/50"
           />
           <button
+            type="button"
             onClick={handleSubmitNote}
-            className="px-4 py-2 rounded-xl text-sm font-semibold bg-primary-container text-white active:scale-95 transition-transform"
+            className="px-4 py-2.5 rounded-xl text-sm font-semibold bg-primary-container text-white active:scale-95 transition-transform"
           >
             Done
           </button>
         </div>
         <button
+          type="button"
           onClick={handleSubmitNote}
-          className="text-xs text-center text-on-surface-muted hover:text-on-surface transition-colors"
+          className="text-caption text-center text-on-surface-muted hover:text-on-surface transition-colors"
         >
           Skip
         </button>
@@ -72,17 +68,18 @@ export default function FeedbackWidget({ readId, catId }) {
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <p className="text-xs text-on-surface-muted text-center">Was this read useful?</p>
-      <div className="flex gap-1.5">
-        {OPTIONS.map((opt) => (
+    <div className="flex flex-col gap-2.5">
+      <p className="text-caption text-on-surface-muted text-center">Was this read useful?</p>
+      <div className="grid grid-cols-4 gap-2">
+        {OPTIONS.map(({ id, label, Icon }) => (
           <button
-            key={opt.id}
-            onClick={() => handleSelect(opt.id)}
-            className="flex-1 flex flex-col items-center gap-0.5 px-2 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high active:scale-95 transition-all text-xs font-medium text-on-surface-muted"
+            key={id}
+            type="button"
+            onClick={() => handleSelect(id)}
+            className="flex flex-col items-center gap-1.5 px-2 py-3 rounded-xl bg-surface-container border border-border-subtle hover:bg-surface-container-high active:scale-95 transition-all duration-150"
           >
-            <span className="text-sm leading-none">{opt.icon}</span>
-            <span>{opt.label}</span>
+            <Icon size={18} color="#857464" />
+            <span className="text-2xs font-semibold text-on-surface-muted">{label}</span>
           </button>
         ))}
       </div>

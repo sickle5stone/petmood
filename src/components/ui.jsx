@@ -192,6 +192,70 @@ export function StatChip({ label }) {
   )
 }
 
+export function EmptyState({ icon: Icon, title, description, actionLabel, onAction }) {
+  return (
+    <div className="flex flex-col items-center justify-center gap-4 text-center px-8 py-12 flex-1">
+      <div className="w-14 h-14 rounded-2xl bg-surface-container border border-border-subtle flex items-center justify-center">
+        {Icon && <Icon size={26} color="#857464" />}
+      </div>
+      <div>
+        <p className="text-lg font-semibold text-on-surface tracking-tight">{title}</p>
+        {description && <p className="text-sm text-on-surface-muted mt-1 leading-relaxed max-w-xs">{description}</p>}
+      </div>
+      {actionLabel && onAction && (
+        <button
+          type="button"
+          onClick={onAction}
+          className="mt-1 px-6 py-3 rounded-full bg-primary-container text-white text-sm font-semibold active:scale-[0.98] transition-transform duration-200 ease-smooth shadow-card"
+        >
+          {actionLabel}
+        </button>
+      )}
+    </div>
+  )
+}
+
+export function ProgressStep({ label, status }) {
+  const styles = {
+    done: 'bg-secondary-container/50 text-secondary border border-secondary/10',
+    active: 'bg-primary-container/12 text-on-surface border border-primary-container/20 shadow-sm',
+    pending: 'text-on-surface-muted/40 border border-transparent',
+  }
+  return (
+    <div className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ease-smooth ${styles[status] ?? styles.pending}`}>
+      <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 ${
+        status === 'done' ? 'bg-secondary text-white' :
+        status === 'active' ? 'bg-primary-container text-white animate-pulse' :
+        'bg-surface-container-high text-on-surface-muted'
+      }`}>
+        {status === 'done' ? '✓' : status === 'active' ? '·' : ''}
+      </span>
+      <span className="text-sm font-medium">{label}</span>
+    </div>
+  )
+}
+
+export function ListRow({ icon: Icon, iconBg, title, subtitle, onClick, chevron = true }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-surface-container/60 active:scale-[0.995] transition-all duration-150 ease-smooth border-b border-border-subtle last:border-0"
+    >
+      {Icon && (
+        <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 border border-border-subtle" style={{ background: iconBg ?? '#f0edef' }}>
+          <Icon size={18} color="#524436" />
+        </div>
+      )}
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-semibold text-on-surface leading-snug tracking-tight">{title}</p>
+        {subtitle && <p className="text-caption text-on-surface-muted mt-0.5">{subtitle}</p>}
+      </div>
+      {chevron && <span className="text-on-surface-muted/50">›</span>}
+    </button>
+  )
+}
+
 export function MoodDot({ feeling, size = 'md' }) {
   const { color, bg } = (() => {
     const lower = (feeling ?? '').toLowerCase()
