@@ -64,7 +64,7 @@ export default function LifeStageScreen({ cats }) {
   const _pastMilestones = ageData ? MILESTONES.filter((m) => m.ageMonths <= (ageData.years * 12 + ageData.months)) : []
 
   return (
-    <div className="min-h-svh bg-surface flex flex-col pt-safe page-enter pb-24">
+    <div className="pm-page pm-page-tight pb-nav">
       <div className="flex items-center gap-3 px-5 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">

@@ -104,7 +104,7 @@ export default function PetPassportScreen({ cats }) {
   const completionPct = Math.round((filled / completionFields.length) * 100)
 
   return (
-    <div className="min-h-svh bg-surface flex flex-col pt-safe page-enter pb-24">
+    <div className="pm-page pm-page-tight pb-nav">
       {/* Header */}
       <div className="flex items-center gap-3 px-5 py-4">
         <BackButton onClick={() => navigate(-1)} />

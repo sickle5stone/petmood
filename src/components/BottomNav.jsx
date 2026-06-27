@@ -71,7 +71,7 @@ export default function BottomNav() {
                 key={item.id}
                 type="button"
                 onClick={() => navigate(item.path(catId))}
-                className={`relative flex flex-col items-center justify-center gap-1 min-w-[3.5rem] px-2 py-2 rounded-2xl transition-all duration-200 ease-smooth active:scale-95 ${
+                className={`relative flex flex-col items-center justify-center gap-1 min-w-11 min-h-11 px-2 py-2.5 rounded-2xl transition-all duration-200 ease-smooth active:scale-95 ${
                   active ? 'text-primary-container' : 'text-on-surface-muted'
                 }`}
                 aria-label={item.label}

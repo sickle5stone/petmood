@@ -150,7 +150,7 @@ export default function HistoryScreen({ cats }) {
             </p>
           </div>
 
-          <div className="relative flex flex-col gap-4 pb-28">
+          <div className="relative flex flex-col gap-4 pb-4">
             {/* Timeline spine */}
             <div className="absolute left-[5px] top-2 bottom-2 w-px border-l-2 border-dashed border-outline/40" />
 
@@ -200,13 +200,6 @@ export default function HistoryScreen({ cats }) {
           </div>
         </>
       )}
-
-      {/* Floating CTA */}
-      <div className="fixed bottom-0 left-0 right-0 px-5 py-4 bg-gradient-to-t from-surface via-surface/95 to-transparent safe-bottom pointer-events-none">
-        <PillButton className="w-full pointer-events-auto shadow-card" onClick={() => navigate('/')}>
-          New read for {catName}
-        </PillButton>
-      </div>
     </div>
   )
 }
