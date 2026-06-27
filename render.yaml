@@ -1,0 +1,38 @@
+# Render Static Site deployment
+# https://render.com/docs/static-sites
+#
+# 1. Connect your GitHub repo in the Render dashboard
+# 2. Choose "Static Site"
+# 3. Set:
+#      Build Command:  npm install && npm run build
+#      Publish Dir:    dist
+# 4. Add env vars from .env.example in the Render Environment tab
+#    (VITE_* vars are inlined at build time by Vite)
+#
+# render.yaml below enables Infrastructure as Code (optional):
+
+services:
+  - type: web
+    name: petmood
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_FIREBASE_API_KEY
+        sync: false
+      - key: VITE_FIREBASE_AUTH_DOMAIN
+        sync: false
+      - key: VITE_FIREBASE_PROJECT_ID
+        sync: false
+      - key: VITE_FIREBASE_STORAGE_BUCKET
+        sync: false
+      - key: VITE_FIREBASE_MESSAGING_SENDER_ID
+        sync: false
+      - key: VITE_FIREBASE_APP_ID
+        sync: false
+      - key: VITE_ANALYSIS_ENDPOINT
+        sync: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

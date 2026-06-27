@@ -1,0 +1,30 @@
+rules_version = '2';
+
+// ──────────────────────────────────────────────────────────────────────────────
+// PetMood – Firestore security rules
+//
+// MVP (no-auth) state: all reads and writes are open.
+// This is intentional for internal testing / first users only.
+// Anyone who knows your Firebase project ID can read and write all data.
+//
+// TODO before public launch:
+//   1. Add Firebase Authentication (email/Google/phone).
+//   2. Scope rules so users can only access their own cats:
+//        match /cats/{catId} {
+//          allow read, write: if request.auth != null
+//                             && resource.data.ownerId == request.auth.uid;
+//        }
+//   3. Add server-side validation constraints (e.g. field types, max lengths).
+//   4. Deny direct writes to baselines/ — compute them via Cloud Functions only.
+// ──────────────────────────────────────────────────────────────────────────────
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── MVP open rules ────────────────────────────────────────────────────────
+    // Remove and replace with the auth-scoped rules above before any public launch.
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

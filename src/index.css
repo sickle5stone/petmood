@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --pm-surface: #fcf8fb;
+    --pm-on-surface: #1b1b1d;
+    --pm-muted: #524436;
+    --pm-amber: #e89a3c;
+    --pm-sage: #8ba888;
+    --pm-border: rgba(27, 27, 29, 0.08);
+  }
+
+  html {
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--pm-surface);
+    color: var(--pm-on-surface);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: rgba(232, 154, 60, 0.22);
+  }
+}
+
+@layer components {
+  .pm-shell {
+    @apply min-h-svh bg-surface relative;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(232, 154, 60, 0.07), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 0%, rgba(139, 168, 136, 0.06), transparent);
+  }
+
+  .pm-page {
+    @apply min-h-svh flex flex-col pt-safe page-enter pb-28;
+  }
+
+  .pm-page-tight {
+    @apply px-5;
+  }
+
+  .pm-card {
+    @apply bg-white rounded-2xl border border-border shadow-card;
+  }
+
+  .pm-card-lg {
+    @apply bg-white rounded-3xl border border-border shadow-card-lg;
+  }
+
+  .pm-card-inset {
+    @apply bg-surface-container rounded-2xl border border-border-subtle;
+  }
+
+  .pm-label {
+    @apply text-2xs font-semibold uppercase tracking-label text-on-surface-muted;
+  }
+
+  .pm-title {
+    @apply text-xl font-semibold text-on-surface tracking-tight;
+  }
+
+  .pm-subtitle {
+    @apply text-sm text-on-surface-muted leading-relaxed;
+  }
+
+  .pm-chip {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium
+      border border-transparent transition-all duration-200 ease-smooth
+      active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-container/40;
+  }
+
+  .pm-chip-idle {
+    @apply bg-surface-container text-on-surface-muted hover:bg-surface-container-high;
+  }
+
+  .pm-chip-active {
+    @apply bg-primary-container text-white shadow-card border-primary-container/20;
+  }
+
+  .pm-icon-btn {
+    @apply flex items-center justify-center w-10 h-10 rounded-full
+      text-on-surface-muted hover:bg-surface-container hover:text-on-surface
+      transition-all duration-150 ease-smooth active:scale-95
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-container/40;
+  }
+
+  .pm-divider {
+    @apply h-px bg-border-subtle;
+  }
+}
+
+@layer utilities {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 16px);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .pb-nav {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: pageEnter 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.22s ease-out both;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseRing {
+  0%, 100% { transform: scale(1); opacity: 0.35; }
+  50% { transform: scale(1.08); opacity: 0.15; }
+}
+
+.record-ring {
+  animation: pulseRing 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
