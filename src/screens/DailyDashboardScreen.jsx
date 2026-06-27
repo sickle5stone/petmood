@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getReadsLocal, computeBaseline } from '../dataService'
 import { CatChip, CatAvatar, StatCard, MoodBadge, MoodDot, IconButton } from '../components/ui'
-import { IcoCamera, IcoTrending, IcoClock, IcoCalendar, IcoClipboard, IcoTarget, IcoBarChart, IcoMoreDots, IcoHeartPulse, IcoShield, IcoPill } from '../components/icons'
+import { IcoCamera, IcoCalendar, IcoClipboard, IcoTarget, IcoBarChart, IcoHeartPulse, IcoShield, IcoFlask, IcoPassport, IcoSparkles, IcoGrid } from '../components/icons'
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
@@ -61,9 +61,14 @@ export default function DailyDashboardScreen({ cats }) {
           <p className="text-caption text-on-surface-muted font-medium">{todayDate}</p>
           <h1 className="pm-title">Today's Vibe</h1>
         </div>
-        <IconButton label="New read" onClick={() => navigate('/')}>
-          <IcoCamera size={20} color="#895200" />
-        </IconButton>
+        <div className="flex items-center gap-1.5">
+          <IconButton label="All tools" onClick={() => navigate(`/more/${selectedCat.id}`)}>
+            <IcoGrid size={20} color="#857464" />
+          </IconButton>
+          <IconButton label="New read" onClick={() => navigate('/')}>
+            <IcoCamera size={20} color="#895200" />
+          </IconButton>
+        </div>
       </div>
 
       {allCats.length > 1 && (
@@ -188,17 +193,17 @@ export default function DailyDashboardScreen({ cats }) {
       )}
 
       <div className="px-5 pb-2">
-        <p className="pm-label mb-3">Quick Actions</p>
+        <p className="pm-label mb-3">Daily shortcuts</p>
         <div className="grid grid-cols-2 gap-3">
           {[
             { Icon: IcoCamera, label: 'New Read', desc: 'Capture a moment', path: '/' },
-            { Icon: IcoTrending, label: 'Insights', desc: 'Mood trends', path: `/insights/${selectedCat.id}` },
-            { Icon: IcoClock, label: 'History', desc: 'All reads', path: `/history/${selectedCat.id}` },
-            { Icon: IcoCalendar, label: 'Weekly', desc: '7-day digest', path: `/weekly/${selectedCat.id}` },
-            { Icon: IcoHeartPulse, label: 'Health Log', desc: 'Symptoms & injuries', path: `/health/${selectedCat.id}` },
-            { Icon: IcoShield, label: 'Emergency', desc: 'ICE vault', path: `/emergency/${selectedCat.id}` },
-            { Icon: IcoPill, label: 'Pharmacy', desc: 'Medications', path: `/pharmacy/${selectedCat.id}` },
-            { Icon: IcoMoreDots, label: 'All Features', desc: 'Full tool suite', path: `/more/${selectedCat.id}` },
+            { Icon: IcoCalendar, label: 'Weekly Digest', desc: '7-day summary', path: `/weekly/${selectedCat.id}` },
+            { Icon: IcoHeartPulse, label: 'Health Log', desc: 'Symptoms & notes', path: `/health/${selectedCat.id}` },
+            { Icon: IcoFlask, label: 'Nutrition', desc: 'Meals & water', path: `/nutrition/${selectedCat.id}` },
+            { Icon: IcoShield, label: 'Emergency', desc: 'ICE & vet contacts', path: `/emergency/${selectedCat.id}` },
+            { Icon: IcoPassport, label: 'Pet Passport', desc: 'Profile & vaccines', path: `/passport/${selectedCat.id}` },
+            { Icon: IcoSparkles, label: 'Stitch AI', desc: 'Ask about your cat', path: `/ai-companion/${selectedCat.id}` },
+            { Icon: IcoGrid, label: 'All Tools', desc: 'Training, gallery & more', path: `/more/${selectedCat.id}` },
           ].map((action) => (
             <button
               key={action.label}

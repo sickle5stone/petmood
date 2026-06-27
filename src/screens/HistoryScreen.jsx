@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getReads, getReadsLocal, computeBaseline, getUnusualSignal } from '../dataService'
-import { BackButton, PillButton, SkeletonTimelineItem, CatAvatar, StatChip, MoodBadge } from '../components/ui'
-import { IcoClipboard } from '../components/icons'
+import { PillButton, SkeletonTimelineItem, CatAvatar, StatChip, MoodBadge, LinkRow } from '../components/ui'
+import { IcoClipboard, IcoPassport, IcoGrid } from '../components/icons'
 import BaselineSummary from '../components/BaselineSummary'
 
 const CONFIDENCE_BORDER = {
@@ -85,9 +85,9 @@ export default function HistoryScreen({ cats }) {
     <div className="pm-page pm-page-tight pb-nav">
       {/* Top bar */}
       <div className="flex items-center justify-between py-4">
-        <BackButton onClick={() => navigate('/')} />
-        <span className="font-semibold text-on-surface">{catName}'s Reads</span>
+        <span className="font-semibold text-on-surface tracking-tight">{catName}'s Reads</span>
         <button
+          type="button"
           onClick={() => navigate('/')}
           className="text-sm font-semibold text-primary-container active:scale-95 transition-transform"
         >
@@ -95,8 +95,7 @@ export default function HistoryScreen({ cats }) {
         </button>
       </div>
 
-      {/* Profile strip — matches Stitch: avatar + name + breed + stat chips */}
-      <div className="flex items-center gap-4 mb-5">
+      <div className="flex items-center gap-4 mb-4">
         <CatAvatar name={catName} size="xl" />
         <div className="flex-1 min-w-0">
           <p className="text-xl font-semibold text-on-surface tracking-tight">{catName}</p>
@@ -113,7 +112,11 @@ export default function HistoryScreen({ cats }) {
         </div>
       </div>
 
-      {/* Baseline summary — shown once enough data exists */}
+      <div className="flex flex-wrap gap-2 mb-5">
+        <LinkRow Icon={IcoPassport} label="Pet Passport" onClick={() => navigate(`/passport/${catId}`)} />
+        <LinkRow Icon={IcoGrid} label="All Tools" onClick={() => navigate(`/more/${catId}`)} />
+      </div>
+
       {baseline && (
         <div className="mb-5 fade-in">
           <BaselineSummary baseline={baseline} unusual={unusual} catName={catName} />

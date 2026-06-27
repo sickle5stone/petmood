@@ -1,5 +1,5 @@
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
-import { IcoCamera, IcoGrid, IcoTrending, IcoHeart, IcoClock, IcoMoreDots } from './icons'
+import { IcoCamera, IcoGrid, IcoTrending, IcoHeart, IcoClock } from './icons'
 
 const NAV_ITEMS = [
   {
@@ -28,27 +28,14 @@ const NAV_ITEMS = [
     label: 'Care',
     Icon: IcoHeart,
     path: (catId) => `/care/${catId}`,
-    matches: (p) => p.startsWith('/care'),
+    matches: (p) => p.startsWith('/care') || p.startsWith('/nutrition') || p.startsWith('/litter') || p.startsWith('/pharmacy'),
   },
   {
     id: 'history',
     label: 'History',
     Icon: IcoClock,
     path: (catId) => `/history/${catId}`,
-    matches: (p) => p.startsWith('/history') || p.startsWith('/passport') || p.startsWith('/weekly'),
-  },
-  {
-    id: 'more',
-    label: 'More',
-    Icon: IcoMoreDots,
-    path: (catId) => `/more/${catId}`,
-    matches: (p) => p.startsWith('/more') || p.startsWith('/health') || p.startsWith('/pharmacy')
-      || p.startsWith('/vet-summary') || p.startsWith('/emergency') || p.startsWith('/nutrition')
-      || p.startsWith('/play-lab') || p.startsWith('/training') || p.startsWith('/bond')
-      || p.startsWith('/behavior') || p.startsWith('/personality') || p.startsWith('/gallery')
-      || p.startsWith('/environment') || p.startsWith('/cleaning') || p.startsWith('/sitter')
-      || p.startsWith('/litter') || p.startsWith('/life-stage') || p.startsWith('/outdoor')
-      || p.startsWith('/leash') || p.startsWith('/human-injury') || p.startsWith('/ai-companion'),
+    matches: (p) => p.startsWith('/history') || p.startsWith('/passport'),
   },
 ]
 
@@ -84,7 +71,7 @@ export default function BottomNav() {
                 key={item.id}
                 type="button"
                 onClick={() => navigate(item.path(catId))}
-                className={`relative flex flex-col items-center justify-center gap-1 min-w-[3rem] px-2 py-2 rounded-2xl transition-all duration-200 ease-smooth active:scale-95 ${
+                className={`relative flex flex-col items-center justify-center gap-1 min-w-[3.5rem] px-2 py-2 rounded-2xl transition-all duration-200 ease-smooth active:scale-95 ${
                   active ? 'text-primary-container' : 'text-on-surface-muted'
                 }`}
                 aria-label={item.label}

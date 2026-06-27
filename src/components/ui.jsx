@@ -235,6 +235,19 @@ export function ProgressStep({ label, status }) {
   )
 }
 
+export function LinkRow({ icon: Icon, label, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-surface-container/80 border border-border-subtle text-caption font-semibold text-on-surface-muted hover:text-on-surface hover:bg-surface-container transition-all active:scale-[0.98]"
+    >
+      {Icon && <Icon size={14} color="#857464" />}
+      {label}
+    </button>
+  )
+}
+
 export function ListRow({ icon: Icon, iconBg, title, subtitle, onClick, chevron = true }) {
   return (
     <button

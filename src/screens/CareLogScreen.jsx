@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { BackButton, CatAvatar } from '../components/ui'
-import { IcoBowl, IcoDroplets, IcoPlay, IcoScissors, IcoMoon, IcoStethoscope, IcoClipboard } from '../components/icons'
+import { CatAvatar, LinkRow } from '../components/ui'
+import { IcoBowl, IcoDroplets, IcoPlay, IcoScissors, IcoMoon, IcoStethoscope, IcoClipboard, IcoFlask, IcoLeaf, IcoPill } from '../components/icons'
 
 const LS_CARE_KEY = (catId) => `petmood_care_${catId}`
 
@@ -161,15 +161,19 @@ export default function CareLogScreen({ cats }) {
   const minsToNextMeal = nextMeal ? Math.max(0, Math.round((nextMeal - Date.now()) / 60000)) : null
 
   return (
-    <div className="min-h-svh bg-surface flex flex-col pt-safe page-enter pb-24">
-      {/* Header */}
+    <div className="pm-page pb-nav">
       <div className="flex items-center gap-3 px-5 py-4">
-        <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1 min-w-0">
-          <h1 className="font-semibold text-on-surface">Care Log</h1>
-          <p className="text-xs text-on-surface-muted">{todayStr}</p>
+          <h1 className="pm-title">Care Log</h1>
+          <p className="text-caption text-on-surface-muted">{todayStr}</p>
         </div>
         <CatAvatar name={cat.name} size="md" />
+      </div>
+
+      <div className="flex flex-wrap gap-2 px-5 mb-4">
+        <LinkRow Icon={IcoFlask} label="Nutrition" onClick={() => navigate(`/nutrition/${cat.id}`)} />
+        <LinkRow Icon={IcoLeaf} label="Litter" onClick={() => navigate(`/litter/${cat.id}`)} />
+        <LinkRow Icon={IcoPill} label="Pharmacy" onClick={() => navigate(`/pharmacy/${cat.id}`)} />
       </div>
 
       <div className="flex flex-col gap-5 px-5">

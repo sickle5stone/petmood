@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getReadsLocal, computeBaseline } from '../dataService'
-import { BackButton, CatAvatar, EmptyState } from '../components/ui'
+import { CatAvatar, EmptyState, LinkRow } from '../components/ui'
 import { IcoClipboard, IcoTarget, IcoCalendar, IcoBarChart as IcoBarChartIcon, IcoZap, IcoPawPrint, IcoMoon, IcoTrending, IcoSun } from '../components/icons'
 
 const MOOD_COLORS = {
@@ -153,14 +153,13 @@ export default function MoodInsightsScreen({ cats }) {
 
   if (loading) {
     return (
-      <div className="min-h-svh bg-surface flex flex-col pt-safe page-enter">
-        <div className="flex items-center gap-3 px-5 py-4">
-          <BackButton onClick={() => navigate(-1)} />
-          <span className="font-semibold text-on-surface">{cat.name}'s Insights</span>
+      <div className="pm-page pb-nav">
+        <div className="px-5 py-4">
+          <h1 className="pm-title">{cat.name}'s Insights</h1>
         </div>
-        <div className="flex-1 flex flex-col gap-4 px-5">
+        <div className="flex flex-col gap-4 px-5">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-surface-container rounded-2xl h-28 animate-pulse" />
+            <div key={i} className="pm-card-inset h-28 animate-pulse" />
           ))}
         </div>
       </div>
@@ -172,13 +171,18 @@ export default function MoodInsightsScreen({ cats }) {
   return (
     <div className="pm-page pb-nav">
       <div className="flex items-center gap-3 px-5 py-4">
-        <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1 min-w-0">
           <h1 className="pm-title">{cat.name}'s Insights</h1>
-          <p className="text-caption text-on-surface-muted">Mood & Behaviour Trends</p>
+          <p className="text-caption text-on-surface-muted">Mood & behaviour trends</p>
         </div>
         <CatAvatar name={cat.name} size="md" />
       </div>
+
+      {!empty && (
+        <div className="flex flex-wrap gap-2 px-5 mb-4">
+          <LinkRow Icon={IcoCalendar} label="Weekly digest" onClick={() => navigate(`/weekly/${cat.id}`)} />
+        </div>
+      )}
 
       {empty ? (
         <EmptyState
