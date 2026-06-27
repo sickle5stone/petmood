@@ -176,7 +176,7 @@ export default function WeeklyInsightsScreen({ cats }) {
 
   return (
     <div className="pm-page pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1 min-w-0">
           <h1 className="pm-title">Weekly Digest</h1>
@@ -186,7 +186,7 @@ export default function WeeklyInsightsScreen({ cats }) {
       </div>
 
       {loading ? (
-        <div className="flex flex-col gap-3 px-5">
+        <div className="flex flex-col gap-3 pb-6">
           {[1, 2, 3].map((i) => <div key={i} className="pm-card-inset h-24 animate-pulse" />)}
         </div>
       ) : last7.length === 0 ? (
@@ -198,7 +198,7 @@ export default function WeeklyInsightsScreen({ cats }) {
           onAction={() => navigate('/')}
         />
       ) : (
-        <div className="flex flex-col gap-5 px-5">
+        <div className="flex flex-col gap-5 pb-6">
           <div className="pm-card-lg p-5 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-secondary-container/20 to-transparent pointer-events-none" />
             <div className="relative">
@@ -217,7 +217,7 @@ export default function WeeklyInsightsScreen({ cats }) {
                   <span className={moodChange === 'up' ? 'text-secondary' : moodChange === 'down' ? 'text-tertiary' : 'text-on-surface-muted'}>
                     {moodChange === 'up' ? '↑' : moodChange === 'down' ? '↓' : '→'}
                   </span>
-                  <span className="text-xs text-on-surface-muted">
+                  <span className="text-caption text-on-surface-muted font-medium">
                     {moodChange === 'up' ? `${last7.length - prev7.length} more reads than last week` :
                      moodChange === 'down' ? `${prev7.length - last7.length} fewer reads than last week` :
                      'Same pace as last week'}

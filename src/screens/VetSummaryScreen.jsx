@@ -20,10 +20,10 @@ function age(dob) {
 
 function SectionCard({ title, icon: Icon, children }) {
   return (
-    <div className="bg-white rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.04)] overflow-hidden">
+    <div className="pm-card overflow-hidden">
       <div className="flex items-center gap-2 px-4 py-3 border-b border-surface-container">
         <Icon size={16} color="#e89a3c" />
-        <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted">{title}</p>
+        <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted">{title}</p>
       </div>
       <div className="px-4">{children}</div>
     </div>
@@ -97,21 +97,21 @@ export default function VetSummaryScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Vet-Ready Summary</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name}</p>
+          <h1 className="pm-title !text-lg leading-snug">Vet-Ready Summary</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name}</p>
         </div>
         <button
           onClick={share}
-          className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center active:scale-95 transition-transform"
+          className="pm-add-btn"
         >
           {copied ? <IcoCheck size={16} color="white" /> : <IcoShare size={16} color="white" />}
         </button>
       </div>
 
-      <div className="flex flex-col gap-4 px-5">
+      <div className="flex flex-col gap-4 pb-6">
         {/* Hero */}
         <div className="bg-gradient-to-br from-primary-container/15 to-secondary-container/10 rounded-3xl p-5 flex items-center gap-4 border border-primary-container/10">
           <div className="w-16 h-16 rounded-2xl bg-surface-container flex items-center justify-center text-4xl">
@@ -150,7 +150,7 @@ export default function VetSummaryScreen({ cats }) {
             activeMeds.map((m) => (
               <div key={m.id} className="py-2.5 border-b border-surface-container last:border-0">
                 <p className="text-sm font-medium text-on-surface">{m.name} {m.dose}</p>
-                <p className="text-xs text-on-surface-muted">{m.frequency}{m.purpose ? ` · ${m.purpose}` : ''}</p>
+                <p className="text-caption text-on-surface-muted font-medium">{m.frequency}{m.purpose ? ` · ${m.purpose}` : ''}</p>
               </div>
             ))
           )}

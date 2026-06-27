@@ -67,29 +67,29 @@ export default function OutdoorConfidenceScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Outdoor Confidence Map</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name}</p>
+          <h1 className="pm-title !text-lg leading-snug">Outdoor Confidence Map</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name}</p>
         </div>
-        <button onClick={() => setShowAdd(true)} className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center active:scale-95 transition-transform">
+        <button onClick={() => setShowAdd(true)} className="pm-add-btn">
           <IcoPlus size={16} color="white" />
         </button>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3">
-          <div className="bg-white rounded-2xl p-4 text-center shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="pm-card p-4 text-center">
             <p className="text-2xl font-bold text-on-surface">{sessions.length}</p>
             <p className="text-xs text-on-surface-muted mt-0.5">sessions</p>
           </div>
-          <div className="bg-white rounded-2xl p-4 text-center shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="pm-card p-4 text-center">
             <p className="text-2xl font-bold text-on-surface">{best}/7</p>
             <p className="text-xs text-on-surface-muted mt-0.5">best level</p>
           </div>
-          <div className="bg-white rounded-2xl p-4 text-center shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="pm-card p-4 text-center">
             <p className="text-2xl font-bold text-on-surface">{unlockedCount}</p>
             <p className="text-xs text-on-surface-muted mt-0.5">milestones</p>
           </div>
@@ -97,8 +97,8 @@ export default function OutdoorConfidenceScreen({ cats }) {
 
         {/* Confidence levels guide */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Confidence Scale</p>
-          <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Confidence Scale</p>
+          <div className="pm-card px-4">
             {CONFIDENCE_LEVELS.map((cl) => (
               <div key={cl.level} className={`flex items-center gap-3 py-2.5 border-b border-surface-container last:border-0 ${best >= cl.level ? '' : 'opacity-40'}`}>
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 text-xs font-bold text-on-surface" style={{ background: cl.color }}>
@@ -113,8 +113,8 @@ export default function OutdoorConfidenceScreen({ cats }) {
 
         {/* Milestones */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Milestones ({unlockedCount}/{milestones.length})</p>
-          <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Milestones ({unlockedCount}/{milestones.length})</p>
+          <div className="pm-card px-4">
             {milestones.map((m) => (
               <div key={m.id} className="flex items-center gap-3 py-3 border-b border-surface-container last:border-0">
                 <button onClick={() => toggleMilestone(m.id)}
@@ -131,12 +131,12 @@ export default function OutdoorConfidenceScreen({ cats }) {
         {/* Session history */}
         {sessions.length > 0 && (
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Sessions</p>
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Sessions</p>
             <div className="flex flex-col gap-2">
               {sessions.slice(0, 10).map((s) => {
                 const cl = CONFIDENCE_LEVELS.find((c) => c.level === s.level)
                 return (
-                  <div key={s.id} className="bg-white rounded-2xl px-4 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex items-center gap-3">
+                  <div key={s.id} className="pm-card px-4 py-3 flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0" style={{ background: cl?.color ?? '#f0edef' }}>{s.level}</div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-on-surface">{cl?.label}</p>
@@ -161,7 +161,7 @@ export default function OutdoorConfidenceScreen({ cats }) {
             <p className="text-base font-semibold text-on-surface mb-4">Log outdoor session</p>
 
             <div className="mb-4">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">Confidence Level</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">Confidence Level</p>
               <div className="flex flex-col gap-2">
                 {CONFIDENCE_LEVELS.map((cl) => (
                   <button key={cl.level} onClick={() => setForm((f) => ({ ...f, level: cl.level }))}
@@ -175,7 +175,7 @@ export default function OutdoorConfidenceScreen({ cats }) {
             </div>
 
             <div className="mb-5">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">Notes</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">Notes</p>
               <input value={form.notes} onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
                 placeholder="What happened..."
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-container text-sm text-on-surface outline-none" />

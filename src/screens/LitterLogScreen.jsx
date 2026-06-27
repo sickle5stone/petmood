@@ -40,7 +40,7 @@ function EntryRow({ entry }) {
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-on-surface">{typeInfo.label}</p>
-        <p className="text-xs text-on-surface-muted">{entry.note}</p>
+        <p className="text-caption text-on-surface-muted font-medium">{entry.note}</p>
       </div>
       <span className="text-[11px] text-on-surface-muted flex-shrink-0">
         {new Date(entry.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -80,21 +80,21 @@ export default function LitterLogScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Litter & Digestive</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name}</p>
+          <h1 className="pm-title !text-lg leading-snug">Litter & Digestive</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name}</p>
         </div>
         <button
           onClick={() => { setType('urinate'); setNote('Normal'); setShowAdd(true) }}
-          className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center active:scale-95 transition-transform"
+          className="pm-add-btn"
         >
           <IcoPlus size={16} color="white" />
         </button>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {/* Today summary */}
         <div className="grid grid-cols-3 gap-3">
           {[
@@ -102,7 +102,7 @@ export default function LitterLogScreen({ cats }) {
             { label: 'Stool', value: todayStats.stool, color: '#ccebc7' },
             { label: 'Issues', value: todayStats.issues, color: '#fecaca' },
           ].map(({ label, value, color }) => (
-            <div key={label} className="bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)] text-center">
+            <div key={label} className="pm-card p-4 text-center">
               <div className="w-8 h-8 rounded-xl mx-auto mb-2 flex items-center justify-center" style={{ background: color }}>
                 <span className="text-sm font-bold text-on-surface">{value}</span>
               </div>
@@ -128,8 +128,8 @@ export default function LitterLogScreen({ cats }) {
         {/* Today's log */}
         {todayLog.length > 0 && (
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Today</p>
-            <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Today</p>
+            <div className="pm-card px-4">
               {todayLog.map((e) => <EntryRow key={e.id} entry={e} />)}
             </div>
           </div>
@@ -138,15 +138,15 @@ export default function LitterLogScreen({ cats }) {
         {/* Past entries grouped by date */}
         {pastLog.length > 0 && (
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Previous</p>
-            <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Previous</p>
+            <div className="pm-card px-4">
               {pastLog.slice(0, 20).map((e) => <EntryRow key={e.id} entry={e} />)}
             </div>
           </div>
         )}
 
         {log.length === 0 && (
-          <div className="bg-white rounded-2xl p-10 text-center shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="pm-card p-10 text-center">
             <div className="w-14 h-14 rounded-2xl bg-green-50 flex items-center justify-center mx-auto mb-3">
               <IcoLeaf size={24} color="#16a34a" />
             </div>
@@ -181,7 +181,7 @@ export default function LitterLogScreen({ cats }) {
             </div>
 
             <div className="mb-5">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">Note</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">Note</p>
               <div className="flex flex-wrap gap-2">
                 {getOptions(type).map((opt) => (
                   <button

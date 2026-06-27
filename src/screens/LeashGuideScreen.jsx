@@ -85,24 +85,24 @@ export default function LeashGuideScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Leash Training Guide</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name}</p>
+          <h1 className="pm-title !text-lg leading-snug">Leash Training Guide</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name}</p>
         </div>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {/* Progress */}
-        <div className="bg-white rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+        <div className="pm-card p-5">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center flex-shrink-0">
               <IcoLeash size={18} color="#16a34a" />
             </div>
             <div className="flex-1">
               <p className="text-sm font-semibold text-on-surface">{doneSteps}/{totalSteps} steps complete</p>
-              <p className="text-xs text-on-surface-muted">Phase {Math.min(currentPhase, GUIDE_STEPS.length)}: {GUIDE_STEPS[Math.min(currentPhase - 1, GUIDE_STEPS.length - 1)].title}</p>
+              <p className="text-caption text-on-surface-muted font-medium">Phase {Math.min(currentPhase, GUIDE_STEPS.length)}: {GUIDE_STEPS[Math.min(currentPhase - 1, GUIDE_STEPS.length - 1)].title}</p>
             </div>
             <span className="text-sm font-bold text-primary-container">{progress}%</span>
           </div>
@@ -131,7 +131,7 @@ export default function LeashGuideScreen({ cats }) {
                 <IcoChevronRight size={16} color="#857464" className={`transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
               </button>
               {isExpanded && (
-                <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)] ml-11">
+                <div className="pm-card px-4 ml-11">
                   {phase.steps.map((step, i) => (
                     <div key={step.id} className={`flex items-start gap-3 py-3 ${i < phase.steps.length - 1 ? 'border-b border-surface-container' : ''}`}>
                       <button
@@ -153,8 +153,8 @@ export default function LeashGuideScreen({ cats }) {
 
         {/* Notes */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Training Notes</p>
-          <div className="bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Training Notes</p>
+          <div className="pm-card p-4">
             <textarea
               value={notes}
               onChange={(e) => { setNotes(e.target.value); lsSet(LS_KEY(cat.id), { completed, notes: e.target.value }) }}

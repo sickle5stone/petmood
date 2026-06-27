@@ -41,7 +41,7 @@ function TaskRow({ task, lastDone, onDone }) {
       </button>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-on-surface">{task.label}</p>
-        <p className="text-xs text-on-surface-muted">{task.frequency}</p>
+        <p className="text-caption text-on-surface-muted font-medium">{task.frequency}</p>
       </div>
       <span className={`text-[11px] font-medium flex-shrink-0 ${overdue ? 'text-red-500' : 'text-on-surface-muted'}`}>
         {days === null ? 'Never' : days === 0 ? 'Done today' : `${days}d ago`}
@@ -94,20 +94,20 @@ export default function CleaningLogScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Cleaning Log</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name}'s space</p>
+          <h1 className="pm-title !text-lg leading-snug">Cleaning Log</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name}'s space</p>
         </div>
-        <button onClick={() => setShowAdd(true)} className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center active:scale-95 transition-transform">
+        <button onClick={() => setShowAdd(true)} className="pm-add-btn">
           <IcoPlus size={16} color="white" />
         </button>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {/* Progress */}
-        <div className="bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+        <div className="pm-card p-4">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center flex-shrink-0">
               <IcoScissors size={20} color="#857464" />
@@ -126,8 +126,8 @@ export default function CleaningLogScreen({ cats }) {
 
         {/* Task list */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Cleaning Tasks</p>
-          <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Cleaning Tasks</p>
+          <div className="pm-card px-4">
             {allTasks.map((task) => (
               <TaskRow key={task.id} task={task} lastDone={log[task.id]} onDone={() => markDone(task.id)} />
             ))}

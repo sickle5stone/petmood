@@ -26,8 +26,8 @@ function defaultVault(catName) {
 function Section({ title, children }) {
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">{title}</p>
-      <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+      <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">{title}</p>
+      <div className="pm-card px-4">
         {children}
       </div>
     </div>
@@ -37,7 +37,7 @@ function Section({ title, children }) {
 function Field({ label, value, placeholder, onChange }) {
   return (
     <div className="flex items-start py-3 border-b border-surface-container last:border-0 gap-2">
-      <span className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted w-32 flex-shrink-0 pt-1">{label}</span>
+      <span className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted w-32 flex-shrink-0 pt-1">{label}</span>
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -51,7 +51,7 @@ function Field({ label, value, placeholder, onChange }) {
 function TextArea({ label, value, placeholder, onChange }) {
   return (
     <div className="py-3 border-b border-surface-container last:border-0">
-      <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">{label}</p>
+      <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">{label}</p>
       <textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -110,11 +110,11 @@ SPECIAL INSTRUCTIONS: ${vault.specialInstructions}`
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Emergency Vault</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name}</p>
+          <h1 className="pm-title !text-lg leading-snug">Emergency Vault</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name}</p>
         </div>
         <button
           onClick={saveVault}
@@ -136,7 +136,7 @@ SPECIAL INSTRUCTIONS: ${vault.specialInstructions}`
         </div>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         <Section title="Primary Vet">
           <Field label="Clinic Name" value={vault.vetName} placeholder="Dr. Chen Animal Clinic" onChange={(v) => update('vetName', v)} />
           <Field label="Phone" value={vault.vetPhone} placeholder="+1 555-0000" onChange={(v) => update('vetPhone', v)} />

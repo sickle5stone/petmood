@@ -32,10 +32,10 @@ function _heatmap(reads) {
 
 function PatternCard({ title, value, desc, color }) {
   return (
-    <div className="bg-white rounded-2xl px-4 py-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
-      <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1">{title}</p>
+    <div className="pm-card px-4 py-4">
+      <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1">{title}</p>
       <p className="text-lg font-semibold text-on-surface" style={color ? { color } : {}}>{value}</p>
-      <p className="text-xs text-on-surface-muted">{desc}</p>
+      <p className="text-caption text-on-surface-muted font-medium">{desc}</p>
     </div>
   )
 }
@@ -94,17 +94,17 @@ export default function BehaviorLabScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Behavior Lab</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name} · Pattern analysis</p>
+          <h1 className="pm-title !text-lg leading-snug">Behavior Lab</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name} · Pattern analysis</p>
         </div>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {!hasEnoughData ? (
-          <div className="bg-white rounded-2xl p-10 text-center shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="pm-card p-10 text-center">
             <div className="w-14 h-14 rounded-2xl bg-purple-50 flex items-center justify-center mx-auto mb-3">
               <IcoBrain size={24} color="#7c3aed" />
             </div>
@@ -125,13 +125,13 @@ export default function BehaviorLabScreen({ cats }) {
 
             {activityCorrelation.length > 0 && (
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Activity → Mood Links</p>
-                <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+                <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Activity → Mood Links</p>
+                <div className="pm-card px-4">
                   {activityCorrelation.map((item) => (
                     <div key={item.activity} className="flex items-center gap-3 py-3 border-b border-surface-container last:border-0">
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-on-surface truncate">{item.activity}</p>
-                        <p className="text-xs text-on-surface-muted">{item.count} reads</p>
+                        <p className="text-caption text-on-surface-muted font-medium">{item.count} reads</p>
                       </div>
                       {item.topMood && (
                         <div className="flex items-center gap-2">
@@ -147,8 +147,8 @@ export default function BehaviorLabScreen({ cats }) {
 
             {timePatterns && (
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Daily Rhythm</p>
-                <div className="bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+                <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Daily Rhythm</p>
+                <div className="pm-card p-4">
                   <div className="flex gap-3">
                     {Object.entries(timePatterns.buckets).map(([slot, count]) => {
                       const max = Math.max(...Object.values(timePatterns.buckets))

@@ -21,7 +21,7 @@ function MealCard({ meal, onDelete }) {
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-on-surface">{meal.brand || meal.foodType}</p>
-        <p className="text-xs text-on-surface-muted">{meal.foodType} · {meal.portion}</p>
+        <p className="text-caption text-on-surface-muted font-medium">{meal.foodType} · {meal.portion}</p>
         {meal.note && <p className="text-xs text-on-surface-muted/70 mt-0.5">{meal.note}</p>}
       </div>
       <span className="text-[11px] text-on-surface-muted flex-shrink-0">
@@ -82,26 +82,26 @@ export default function NutritionLabScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Nutrition Lab</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name}</p>
+          <h1 className="pm-title !text-lg leading-snug">Nutrition Lab</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name}</p>
         </div>
         <button
           onClick={() => setShowAdd(true)}
-          className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center active:scale-95 transition-transform"
+          className="pm-add-btn"
         >
           <IcoPlus size={16} color="white" />
         </button>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {/* Water tracker */}
-        <div className="bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+        <div className="pm-card p-4">
           <div className="flex items-center gap-2 mb-3">
             <IcoDroplets size={16} color="#3b82f6" />
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted">Daily Water Intake</p>
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted">Daily Water Intake</p>
           </div>
           <div className="flex items-end gap-3 mb-3">
             <span className="text-3xl font-bold text-on-surface">{waterMl}</span>
@@ -126,15 +126,15 @@ export default function NutritionLabScreen({ cats }) {
         {/* Today meals */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted">Today's Meals ({todayMeals.length})</p>
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted">Today's Meals ({todayMeals.length})</p>
             <button onClick={() => setShowAdd(true)} className="text-xs font-semibold text-primary-container">+ Log meal</button>
           </div>
           {todayMeals.length === 0 ? (
-            <div className="bg-white rounded-2xl p-8 text-center shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <div className="pm-card p-8 text-center">
               <p className="text-sm text-on-surface-muted">No meals logged today</p>
             </div>
           ) : (
-            <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <div className="pm-card px-4">
               {todayMeals.map((m) => <MealCard key={m.id} meal={m} />)}
             </div>
           )}
@@ -142,8 +142,8 @@ export default function NutritionLabScreen({ cats }) {
 
         {/* Diet profile */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Diet Profile</p>
-          <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Diet Profile</p>
+          <div className="pm-card px-4">
             {[
               { label: 'Current Weight', key: 'weight', placeholder: 'e.g. 4.2 kg' },
               { label: 'Target Weight', key: 'targetWeight', placeholder: 'e.g. 4.0 kg' },
@@ -154,7 +154,7 @@ export default function NutritionLabScreen({ cats }) {
               { label: 'Food Allergies', key: 'allergies', placeholder: 'e.g. None / Fish' },
             ].map(({ label, key, placeholder }) => (
               <div key={key} className="flex items-center py-3 border-b border-surface-container last:border-0 gap-2">
-                <span className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted w-28 flex-shrink-0">{label}</span>
+                <span className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted w-28 flex-shrink-0">{label}</span>
                 <input
                   value={profile[key] ?? ''}
                   onChange={(e) => {
@@ -173,8 +173,8 @@ export default function NutritionLabScreen({ cats }) {
         {/* History */}
         {meals.length > todayMeals.length && (
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Meal History</p>
-            <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Meal History</p>
+            <div className="pm-card px-4">
               {meals.filter((m) => new Date(m.time).toDateString() !== today()).slice(0, 15).map((m) => (
                 <div key={m.id} className="flex items-center gap-3 py-2.5 border-b border-surface-container last:border-0">
                   <p className="text-sm text-on-surface flex-1">{m.brand || m.foodType} · {m.portion}</p>
@@ -200,7 +200,7 @@ export default function NutritionLabScreen({ cats }) {
             <p className="text-base font-semibold text-on-surface mb-4">Log a meal</p>
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">Type</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">Type</p>
               <div className="flex flex-wrap gap-2">
                 {FOOD_TYPES.map((t) => (
                   <button
@@ -215,7 +215,7 @@ export default function NutritionLabScreen({ cats }) {
             </div>
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">Brand / Name</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">Brand / Name</p>
               <input
                 value={form.brand}
                 onChange={(e) => setForm((f) => ({ ...f, brand: e.target.value }))}
@@ -225,7 +225,7 @@ export default function NutritionLabScreen({ cats }) {
             </div>
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">Portion</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">Portion</p>
               <input
                 value={form.portion}
                 onChange={(e) => setForm((f) => ({ ...f, portion: e.target.value }))}
@@ -235,7 +235,7 @@ export default function NutritionLabScreen({ cats }) {
             </div>
 
             <div className="mb-5">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">How did it go?</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">How did it go?</p>
               <div className="flex flex-wrap gap-2">
                 {MEAL_NOTES.map((n) => (
                   <button

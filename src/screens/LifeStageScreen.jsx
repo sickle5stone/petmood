@@ -65,17 +65,17 @@ export default function LifeStageScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Life Stage & Longevity</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name}</p>
+          <h1 className="pm-title !text-lg leading-snug">Life Stage & Longevity</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name}</p>
         </div>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {/* Age card */}
-        <div className="bg-white rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+        <div className="pm-card p-5">
           {ageData ? (
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-4xl bg-surface-container flex-shrink-0">
@@ -104,14 +104,14 @@ export default function LifeStageScreen({ cats }) {
         {/* Current stage card */}
         {stageInfo && (
           <div className="rounded-2xl p-5 border" style={{ background: stageInfo.color + '33', borderColor: stageInfo.color }}>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1">{stageInfo.label} · {stageInfo.range}</p>
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1">{stageInfo.label} · {stageInfo.range}</p>
             <p className="text-sm text-on-surface leading-relaxed">{stageInfo.desc}</p>
           </div>
         )}
 
         {/* Life stages timeline */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Life Stages</p>
+          <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Life Stages</p>
           <div className="flex flex-col gap-2">
             {LIFE_STAGES.map((stage) => (
               <div
@@ -125,7 +125,7 @@ export default function LifeStageScreen({ cats }) {
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <p className="text-sm font-semibold text-on-surface">{stage.label}</p>
-                    <span className="text-xs text-on-surface-muted">{stage.range}</span>
+                    <span className="text-caption text-on-surface-muted font-medium">{stage.range}</span>
                     {currentStage === stage.id && <span className="text-[10px] font-bold text-primary-container">NOW</span>}
                   </div>
                   <p className="text-xs text-on-surface-muted mt-0.5 leading-snug">{stage.desc}</p>
@@ -138,8 +138,8 @@ export default function LifeStageScreen({ cats }) {
         {/* Upcoming milestones */}
         {upcomingMilestones.length > 0 && (
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Upcoming Milestones</p>
-            <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Upcoming Milestones</p>
+            <div className="pm-card px-4">
               {upcomingMilestones.map((m, i) => (
                 <div key={i} className="flex items-center gap-3 py-3 border-b border-surface-container last:border-0">
                   <div className="w-8 h-8 rounded-lg bg-primary-container/10 flex items-center justify-center flex-shrink-0">
@@ -147,7 +147,7 @@ export default function LifeStageScreen({ cats }) {
                   </div>
                   <div className="flex-1">
                     <p className="text-sm font-medium text-on-surface">{m.label}</p>
-                    <p className="text-xs text-on-surface-muted">{m.category} · at {m.ageMonths >= 12 ? `${Math.floor(m.ageMonths / 12)}y` : `${m.ageMonths}mo`}</p>
+                    <p className="text-caption text-on-surface-muted font-medium">{m.category} · at {m.ageMonths >= 12 ? `${Math.floor(m.ageMonths / 12)}y` : `${m.ageMonths}mo`}</p>
                   </div>
                 </div>
               ))}

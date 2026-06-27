@@ -13,8 +13,8 @@ function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)) } catch 
 function Section({ title, children }) {
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">{title}</p>
-      <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">{children}</div>
+      <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">{title}</p>
+      <div className="pm-card px-4">{children}</div>
     </div>
   )
 }
@@ -22,7 +22,7 @@ function Section({ title, children }) {
 function Field({ label, value, placeholder, onChange }) {
   return (
     <div className="flex items-start py-3 border-b border-surface-container last:border-0 gap-2">
-      <span className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted w-32 flex-shrink-0 pt-1">{label}</span>
+      <span className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted w-32 flex-shrink-0 pt-1">{label}</span>
       <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
         className="flex-1 text-sm text-on-surface bg-transparent outline-none placeholder:text-on-surface-muted/40" />
     </div>
@@ -32,7 +32,7 @@ function Field({ label, value, placeholder, onChange }) {
 function TextArea({ label, value, placeholder, onChange }) {
   return (
     <div className="py-3 border-b border-surface-container last:border-0">
-      <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">{label}</p>
+      <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">{label}</p>
       <textarea value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} rows={3}
         className="w-full text-sm text-on-surface bg-transparent outline-none resize-none placeholder:text-on-surface-muted/40" />
     </div>
@@ -118,11 +118,11 @@ Owner: ${info.ownerPhone}`
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Sitter Mode</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name}'s care guide</p>
+          <h1 className="pm-title !text-lg leading-snug">Sitter Mode</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name}'s care guide</p>
         </div>
         <button onClick={saveInfo}
           className={`px-4 py-2 rounded-full text-xs font-semibold transition-all active:scale-95 ${saved ? 'bg-secondary-container text-secondary' : 'bg-primary-container text-white'}`}>
@@ -145,7 +145,7 @@ Owner: ${info.ownerPhone}`
         </div>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         <Section title="Introduction">
           <TextArea label="Greeting message" value={info.greeting} placeholder={`Hi! I'm ${cat.name}.`} onChange={(v) => update('greeting', v)} />
         </Section>

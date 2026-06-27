@@ -16,7 +16,7 @@ function today() { return new Date().toDateString() }
 
 function SessionCard({ session }) {
   return (
-    <div className="bg-white rounded-2xl px-4 py-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+    <div className="pm-card px-4 py-4">
       <div className="flex items-start gap-3">
         <div className="w-9 h-9 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
           <IcoPlay size={16} color="#1d4ed8" />
@@ -72,32 +72,32 @@ export default function PlayLabScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Play Lab</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name}</p>
+          <h1 className="pm-title !text-lg leading-snug">Play Lab</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name}</p>
         </div>
         <button
           onClick={() => setShowAdd(true)}
-          className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center active:scale-95 transition-transform"
+          className="pm-add-btn"
         >
           <IcoPlus size={16} color="white" />
         </button>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3">
-          <div className="bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)] text-center">
+          <div className="pm-card p-4 text-center">
             <p className="text-2xl font-bold text-on-surface">{todayMinutes}</p>
             <p className="text-xs text-on-surface-muted mt-0.5">min today</p>
           </div>
-          <div className="bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)] text-center">
+          <div className="pm-card p-4 text-center">
             <p className="text-2xl font-bold text-on-surface">{todaySessions.length}</p>
             <p className="text-xs text-on-surface-muted mt-0.5">sessions</p>
           </div>
-          <div className="bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)] text-center">
+          <div className="pm-card p-4 text-center">
             <p className="text-sm font-bold text-on-surface leading-tight">{favToy?.split(' ')[0] ?? '—'}</p>
             <p className="text-xs text-on-surface-muted mt-0.5">fav toy</p>
           </div>
@@ -105,7 +105,7 @@ export default function PlayLabScreen({ cats }) {
 
         {/* Quick start */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Quick Start</p>
+          <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Quick Start</p>
           <div className="grid grid-cols-2 gap-2">
             {['Wand toy', 'Laser pointer', 'Crinkle ball', 'Puzzle feeder'].map((toy) => (
               <button
@@ -122,7 +122,7 @@ export default function PlayLabScreen({ cats }) {
         {/* Today sessions */}
         {todaySessions.length > 0 && (
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Today's Sessions</p>
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Today's Sessions</p>
             <div className="flex flex-col gap-3">{todaySessions.map((s) => <SessionCard key={s.id} session={s} />)}</div>
           </div>
         )}
@@ -130,10 +130,10 @@ export default function PlayLabScreen({ cats }) {
         {/* History */}
         {sessions.filter((s) => new Date(s.time).toDateString() !== today()).length > 0 && (
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Past Sessions</p>
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Past Sessions</p>
             <div className="flex flex-col gap-3">
               {sessions.filter((s) => new Date(s.time).toDateString() !== today()).slice(0, 8).map((s) => (
-                <div key={s.id} className="bg-white rounded-2xl px-4 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex items-center gap-3">
+                <div key={s.id} className="pm-card px-4 py-3 flex items-center gap-3">
                   <IcoZap size={16} color="#e89a3c" />
                   <p className="text-sm text-on-surface flex-1">{s.toy} · {s.duration}min</p>
                   <span className="text-[11px] text-on-surface-muted">
@@ -146,7 +146,7 @@ export default function PlayLabScreen({ cats }) {
         )}
 
         {sessions.length === 0 && (
-          <div className="bg-white rounded-2xl p-10 text-center shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="pm-card p-10 text-center">
             <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-3">
               <IcoPlay size={24} color="#1d4ed8" />
             </div>
@@ -168,7 +168,7 @@ export default function PlayLabScreen({ cats }) {
             <p className="text-base font-semibold text-on-surface mb-4">Log play session</p>
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">Toy / Activity</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">Toy / Activity</p>
               <div className="flex flex-wrap gap-2">
                 {TOY_TYPES.map((t) => (
                   <button
@@ -183,7 +183,7 @@ export default function PlayLabScreen({ cats }) {
             </div>
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">Duration (minutes)</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">Duration (minutes)</p>
               <input
                 type="number"
                 value={form.duration}
@@ -194,7 +194,7 @@ export default function PlayLabScreen({ cats }) {
             </div>
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">Energy Level</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">Energy Level</p>
               <div className="grid grid-cols-2 gap-2">
                 {ENERGY_LEVELS.map((e) => (
                   <button
@@ -209,7 +209,7 @@ export default function PlayLabScreen({ cats }) {
             </div>
 
             <div className="mb-4">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">Engagement</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">Engagement</p>
               <div className="grid grid-cols-2 gap-2">
                 {ENGAGEMENT.map((e) => (
                   <button
@@ -224,7 +224,7 @@ export default function PlayLabScreen({ cats }) {
             </div>
 
             <div className="mb-5">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">Notes</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">Notes</p>
               <input
                 value={form.notes}
                 onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}

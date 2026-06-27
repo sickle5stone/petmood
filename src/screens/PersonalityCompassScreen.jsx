@@ -21,7 +21,7 @@ function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)) } catch 
 
 function TraitSlider({ trait, value, onChange }) {
   return (
-    <div className="bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+    <div className="pm-card p-4">
       <div className="flex items-center justify-between mb-2">
         <p className="text-sm font-semibold text-on-surface">{trait.label}</p>
         <span className="text-xs font-semibold text-primary-container px-2 py-0.5 rounded-full bg-primary-container/10">
@@ -98,15 +98,15 @@ export default function PersonalityCompassScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Personality Compass</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name} · Trait mapping</p>
+          <h1 className="pm-title !text-lg leading-snug">Personality Compass</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name} · Trait mapping</p>
         </div>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {/* Personality type card */}
         <div className="bg-gradient-to-br from-primary-container/15 to-secondary-container/10 rounded-3xl p-5 border border-primary-container/10">
           <div className="flex items-center gap-3">
@@ -122,7 +122,7 @@ export default function PersonalityCompassScreen({ cats }) {
         {inferredTraits && (
           <div className="bg-secondary-container/20 rounded-2xl p-4">
             <p className="text-xs font-semibold text-secondary mb-1">AI-inferred from your reads</p>
-            <p className="text-xs text-on-surface-muted">
+            <p className="text-caption text-on-surface-muted font-medium">
               Based on {reads.length} reads — playfulness ≈{inferredTraits.playfulness}/10, energy ≈{inferredTraits.energy}/10, calm ≈{inferredTraits.calm}/10.
               You can adjust sliders below.
             </p>
@@ -131,7 +131,7 @@ export default function PersonalityCompassScreen({ cats }) {
 
         {/* Trait sliders */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Adjust Traits</p>
+          <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Adjust Traits</p>
           <div className="flex flex-col gap-3">
             {TRAITS.map((trait) => (
               <TraitSlider key={trait.id} trait={trait} value={values[trait.id]} onChange={(v) => update(trait.id, v)} />
@@ -141,8 +141,8 @@ export default function PersonalityCompassScreen({ cats }) {
 
         {/* Notes */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Personality Notes</p>
-          <div className="bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Personality Notes</p>
+          <div className="pm-card p-4">
             <textarea
               value={notes}
               onChange={(e) => saveNotes(e.target.value)}

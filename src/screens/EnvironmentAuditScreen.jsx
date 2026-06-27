@@ -55,17 +55,17 @@ export default function EnvironmentAuditScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Environment Audit</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name}'s home safety</p>
+          <h1 className="pm-title !text-lg leading-snug">Environment Audit</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name}'s home safety</p>
         </div>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {/* Score */}
-        <div className="bg-white rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+        <div className="pm-card p-5">
           <div className="flex items-center gap-4">
             <div className="relative w-16 h-16 flex-shrink-0">
               <svg viewBox="0 0 60 60" className="-rotate-90 w-16 h-16">
@@ -80,7 +80,7 @@ export default function EnvironmentAuditScreen({ cats }) {
               <p className="text-lg font-semibold text-on-surface">
                 {score >= 80 ? 'Safe home' : score >= 50 ? 'Some risks remain' : 'Needs attention'}
               </p>
-              <p className="text-xs text-on-surface-muted">{totalChecked} / {AUDIT_ITEMS.length} items cleared</p>
+              <p className="text-caption text-on-surface-muted font-medium">{totalChecked} / {AUDIT_ITEMS.length} items cleared</p>
               {highRiskUnchecked.length > 0 && (
                 <p className="text-xs text-red-600 font-medium mt-1">{highRiskUnchecked.length} high-risk items unchecked</p>
               )}
@@ -106,8 +106,8 @@ export default function EnvironmentAuditScreen({ cats }) {
           const items = AUDIT_ITEMS.filter((i) => i.category === cat_name)
           return (
             <div key={cat_name}>
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">{cat_name}</p>
-              <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">{cat_name}</p>
+              <div className="pm-card px-4">
                 {items.map((item, i) => (
                   <div key={item.id}>
                     <div

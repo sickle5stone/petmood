@@ -129,7 +129,7 @@ export default function AICompanionScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4 border-b border-surface-container flex-shrink-0">
+      <div className="flex items-center gap-3 py-4 border-b border-surface-container flex-shrink-0">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex items-center gap-2.5 flex-1">
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-container to-secondary-container flex items-center justify-center">

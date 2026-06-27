@@ -95,6 +95,36 @@
   .pm-divider {
     @apply h-px bg-border-subtle;
   }
+
+  .pm-add-btn {
+    @apply flex items-center justify-center w-11 h-11 rounded-full bg-primary-container text-white shadow-card
+      active:scale-95 transition-transform duration-150 ease-smooth
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-container/50;
+  }
+
+  .pm-input {
+    @apply w-full px-4 py-2.5 rounded-xl bg-surface-container border border-border-subtle
+      text-on-surface text-sm outline-none
+      focus:border-primary-container/40 focus:ring-2 focus:ring-primary-container/15
+      transition-colors duration-150;
+  }
+
+  .pm-textarea {
+    @apply pm-input resize-none;
+  }
+
+  .pm-sheet {
+    @apply relative bg-surface rounded-t-3xl p-5 shadow-card-lg max-h-[85vh] overflow-y-auto;
+    padding-bottom: calc(env(safe-area-inset-bottom, 16px) + 16px);
+  }
+
+  .pm-icon-tile {
+    @apply w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 border border-border-subtle;
+  }
+
+  .pm-stat-tile {
+    @apply pm-card p-4 text-center;
+  }
 }
 
 @layer utilities {

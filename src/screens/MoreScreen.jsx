@@ -3,9 +3,9 @@ import {
   IcoShield, IcoStethoscope, IcoPill, IcoLeaf, IcoFlask,
   IcoPlay, IcoDumbbell, IcoBook, IcoBrain, IcoCompass, IcoCamera3,
   IcoHome, IcoScissors, IcoUsers, IcoPassport, IcoSprout,
-  IcoMap, IcoLeash, IcoUser, IcoSparkles, IcoChevronRight, IcoHeartPulse, IcoChevronLeft
+  IcoMap, IcoLeash, IcoUser, IcoSparkles, IcoHeartPulse
 } from '../components/icons'
-import { CatAvatar } from '../components/ui'
+import { CatAvatar, ListRow, ToolScreenHeader } from '../components/ui'
 
 /** Infrequent & specialized tools — not in bottom nav. Reach via Today or profile. */
 const SECTION_ITEMS = [
@@ -77,24 +77,15 @@ export default function MoreScreen({ cats }) {
   const cat = allCats.find((c) => c.id === catId) ?? allCats[0]
 
   return (
-    <div className="pm-page pb-nav">
-      <div className="px-5 py-4 flex items-center gap-3">
-        <button
-          type="button"
-          onClick={() => navigate('/dashboard')}
-          className="pm-icon-btn !w-9 !h-9"
-          aria-label="Back to Today"
-        >
-          <IcoChevronLeft size={20} color="#1b1b1d" />
-        </button>
-        <CatAvatar name={cat.name} size="md" />
-        <div className="flex-1 min-w-0">
-          <p className="text-caption text-on-surface-muted font-medium">Occasional tools</p>
-          <h1 className="pm-title">All Tools</h1>
-        </div>
-      </div>
+    <div className="pm-page pm-page-tight pb-nav">
+      <ToolScreenHeader
+        title="All Tools"
+        subtitle={`Occasional tools · ${cat.name}`}
+        onBack={() => navigate('/dashboard')}
+        action={<CatAvatar name={cat.name} size="md" />}
+      />
 
-      <div className="flex flex-col gap-6 px-5">
+      <div className="flex flex-col gap-6 pb-6">
         {SECTION_ITEMS.map((group) => (
           <div key={group.section}>
             <p className="pm-label mb-0.5">{group.section}</p>
@@ -103,24 +94,14 @@ export default function MoreScreen({ cats }) {
             )}
             <div className="pm-card overflow-hidden p-0">
               {group.items.map((item) => (
-                <button
+                <ListRow
                   key={item.id}
-                  type="button"
+                  icon={item.Icon}
+                  iconBg={group.color}
+                  title={item.label}
+                  subtitle={item.desc}
                   onClick={() => navigate(item.path(catId))}
-                  className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-surface-container/50 active:scale-[0.995] transition-all duration-150 border-b border-border-subtle last:border-0"
-                >
-                  <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 border border-border-subtle"
-                    style={{ background: group.color }}
-                  >
-                    <item.Icon size={18} color="#524436" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-on-surface leading-snug tracking-tight">{item.label}</p>
-                    <p className="text-caption text-on-surface-muted">{item.desc}</p>
-                  </div>
-                  <IcoChevronRight size={16} color="#857464" />
-                </button>
+                />
               ))}
             </div>
           </div>

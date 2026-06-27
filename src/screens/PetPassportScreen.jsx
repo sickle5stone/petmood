@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { BackButton } from '../components/ui'
+import { BackButton, CatAvatar } from '../components/ui'
 import { IcoSyringe, IcoShare } from '../components/icons'
 
 const LS_PASSPORT_KEY = (catId) => `petmood_passport_${catId}`
@@ -36,7 +36,7 @@ function defaultPassport(catName) {
 function InfoRow({ label, value, placeholder, onEdit }) {
   return (
     <div className="flex items-center py-3 border-b border-surface-container last:border-0 gap-3">
-      <span className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted w-28 flex-shrink-0">{label}</span>
+      <span className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted w-28 flex-shrink-0">{label}</span>
       <span className={`flex-1 text-sm ${value ? 'text-on-surface font-medium' : 'text-on-surface-muted/40 italic'}`}>
         {value || placeholder}
       </span>
@@ -106,22 +106,20 @@ export default function PetPassportScreen({ cats }) {
   return (
     <div className="pm-page pm-page-tight pb-nav">
       {/* Header */}
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1 min-w-0">
-          <h1 className="font-semibold text-on-surface">{cat.name}'s Passport</h1>
-          <p className="text-xs text-on-surface-muted">Essential records & documents</p>
+          <h1 className="pm-title !text-lg leading-snug">{cat.name}'s Passport</h1>
+          <p className="text-caption text-on-surface-muted font-medium">Essential records & documents</p>
         </div>
-        <span className="text-xl">{cat.emoji}</span>
+        <CatAvatar name={cat.name} size="md" />
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {/* Passport hero */}
         <div className="bg-gradient-to-br from-primary-container/15 via-secondary-container/10 to-transparent rounded-3xl p-5 border border-primary-container/10">
           <div className="flex items-center gap-4">
-            <div className="w-20 h-20 rounded-2xl bg-surface-container flex items-center justify-center text-5xl shadow-sm">
-              {cat.emoji}
-            </div>
+            <CatAvatar name={cat.name} size="lg" className="!w-20 !h-20 !text-3xl" />
             <div className="flex-1 min-w-0">
               <p className="text-xl font-semibold text-on-surface">{cat.name}</p>
               {passport.breed && <p className="text-sm text-on-surface-muted">{passport.breed}</p>}
@@ -142,15 +140,15 @@ export default function PetPassportScreen({ cats }) {
 
         {/* Basic info */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Basic Info</p>
-          <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Basic Info</p>
+          <div className="pm-card px-4">
             <InfoRow label="Breed" value={passport.breed} placeholder="Add breed" onEdit={() => startEdit('breed', 'Breed', passport.breed)} />
             <InfoRow label="Date of Birth" value={passport.dob} placeholder="Add DOB" onEdit={() => startEdit('dob', 'Date of Birth (YYYY-MM-DD)', passport.dob)} />
             <InfoRow label="Weight" value={passport.weight ? `${passport.weight} kg` : ''} placeholder="Add weight" onEdit={() => startEdit('weight', 'Weight (kg)', passport.weight)} />
             <InfoRow label="Colour" value={passport.colour} placeholder="Add colour" onEdit={() => startEdit('colour', 'Colour / markings', passport.colour)} />
             <InfoRow label="Gender" value={passport.gender} placeholder="Add gender" onEdit={() => startEdit('gender', 'Gender', passport.gender)} />
             <div className="flex items-center py-3 border-b border-surface-container last:border-0 gap-3">
-              <span className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted w-28">Neutered</span>
+              <span className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted w-28">Neutered</span>
               <button
                 onClick={toggleNeutered}
                 className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${passport.neutered ? 'bg-secondary' : 'bg-surface-container-high'}`}
@@ -168,10 +166,10 @@ export default function PetPassportScreen({ cats }) {
 
         {/* Identity & insurance */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Identity & Insurance</p>
-          <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Identity & Insurance</p>
+          <div className="pm-card px-4">
             <div className="flex items-center py-3 border-b border-surface-container gap-3">
-              <span className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted w-28">Microchip ID</span>
+              <span className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted w-28">Microchip ID</span>
               <span className={`flex-1 text-sm font-mono ${passport.microchipId ? 'text-on-surface font-medium' : 'text-on-surface-muted/40 italic'}`}>
                 {passport.microchipId || 'Not set'}
               </span>
@@ -179,7 +177,7 @@ export default function PetPassportScreen({ cats }) {
             </div>
             <InfoRow label="Insurance" value={passport.insuranceProvider} placeholder="Provider" onEdit={() => startEdit('insuranceProvider', 'Insurance Provider', passport.insuranceProvider)} />
             <div className="flex items-center py-3 gap-3">
-              <span className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted w-28">Policy #</span>
+              <span className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted w-28">Policy #</span>
               <span className={`flex-1 text-sm font-mono ${passport.insurancePolicy ? 'text-on-surface font-medium' : 'text-on-surface-muted/40 italic'}`}>
                 {passport.insurancePolicy || 'Not set'}
               </span>
@@ -190,8 +188,8 @@ export default function PetPassportScreen({ cats }) {
 
         {/* Vaccinations */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Vaccinations</p>
-          <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Vaccinations</p>
+          <div className="pm-card px-4">
             {passport.vaccinations.map((vax, i) => (
               <div key={i} className="flex items-center py-3 border-b border-surface-container last:border-0 gap-3">
                 <div className="w-7 h-7 flex items-center justify-center flex-shrink-0">
@@ -217,8 +215,8 @@ export default function PetPassportScreen({ cats }) {
 
         {/* Notes */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Vet Notes</p>
-          <div className="bg-white rounded-2xl p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Vet Notes</p>
+          <div className="pm-card p-4">
             <textarea
               value={passport.notes}
               onChange={(e) => savePassport({ ...passport, notes: e.target.value })}

@@ -41,18 +41,18 @@ export default function HumanInjuryLogScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Human Injury Log</h1>
-          <p className="text-xs text-on-surface-muted">Scratches & bites from {cat.name}</p>
+          <h1 className="pm-title !text-lg leading-snug">Human Injury Log</h1>
+          <p className="text-caption text-on-surface-muted font-medium">Scratches & bites from {cat.name}</p>
         </div>
-        <button onClick={() => setShowAdd(true)} className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center active:scale-95 transition-transform">
+        <button onClick={() => setShowAdd(true)} className="pm-add-btn">
           <IcoPlus size={16} color="white" />
         </button>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {/* Why log this? */}
         <div className="bg-amber-50 border border-amber-100 rounded-2xl p-4">
           <div className="flex items-start gap-2">
@@ -67,11 +67,11 @@ export default function HumanInjuryLogScreen({ cats }) {
         {/* Stats */}
         {entries.length > 0 && (
           <div className="grid grid-cols-2 gap-3">
-            <div className="bg-white rounded-2xl p-4 text-center shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <div className="pm-card p-4 text-center">
               <p className="text-2xl font-bold text-on-surface">{scratchCount}</p>
               <p className="text-xs text-on-surface-muted mt-0.5">scratches total</p>
             </div>
-            <div className="bg-white rounded-2xl p-4 text-center shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <div className="pm-card p-4 text-center">
               <p className="text-2xl font-bold text-on-surface">{biteCount}</p>
               <p className="text-xs text-on-surface-muted mt-0.5">bites total</p>
             </div>
@@ -79,14 +79,14 @@ export default function HumanInjuryLogScreen({ cats }) {
         )}
 
         {entries.length === 0 ? (
-          <div className="bg-white rounded-2xl p-10 text-center shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="pm-card p-10 text-center">
             <p className="text-sm font-semibold text-on-surface">No injuries logged</p>
             <p className="text-xs text-on-surface-muted mt-1">Hopefully stays empty!</p>
           </div>
         ) : (
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Incidents ({entries.length})</p>
-            <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Incidents ({entries.length})</p>
+            <div className="pm-card px-4">
               {entries.map((entry, i) => {
                 const typeInfo = INJURY_TYPES.find((t) => t.id === entry.type) ?? INJURY_TYPES[0]
                 return (
@@ -99,8 +99,8 @@ export default function HumanInjuryLogScreen({ cats }) {
                         <p className="text-sm font-medium text-on-surface">{typeInfo.label}</p>
                         <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: typeInfo.color }}>{entry.severity}</span>
                       </div>
-                      {entry.context && <p className="text-xs text-on-surface-muted">{entry.context}</p>}
-                      {entry.bodyPart && <p className="text-xs text-on-surface-muted">{entry.bodyPart}</p>}
+                      {entry.context && <p className="text-caption text-on-surface-muted font-medium">{entry.context}</p>}
+                      {entry.bodyPart && <p className="text-caption text-on-surface-muted font-medium">{entry.bodyPart}</p>}
                       {entry.notes && <p className="text-xs text-on-surface-muted/70 mt-0.5">{entry.notes}</p>}
                     </div>
                     <span className="text-[11px] text-on-surface-muted flex-shrink-0">
@@ -117,14 +117,14 @@ export default function HumanInjuryLogScreen({ cats }) {
       {showAdd && (
         <div className="fixed inset-0 z-50 flex flex-col justify-end" onClick={() => setShowAdd(false)}>
           <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
-          <div className="relative bg-surface rounded-t-3xl p-5 shadow-[0_-8px_40px_rgba(0,0,0,0.12)] animate-[slideUp_0.22s_ease-out] max-h-[85vh] overflow-y-auto"
+          <div className="pm-sheet animate-[slideUp_0.22s_ease-out]"
             style={{ paddingBottom: 'calc(env(safe-area-inset-bottom,16px)+16px)' }}
             onClick={(e) => e.stopPropagation()}>
             <div className="w-10 h-1 rounded-full bg-outline/30 mx-auto mb-5" />
             <p className="text-base font-semibold text-on-surface mb-4">Log an incident</p>
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">Type</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">Type</p>
               <div className="flex gap-2">
                 {INJURY_TYPES.map((t) => (
                   <button key={t.id} onClick={() => setForm((f) => ({ ...f, type: t.id }))}
@@ -135,7 +135,7 @@ export default function HumanInjuryLogScreen({ cats }) {
             </div>
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">Severity</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">Severity</p>
               <div className="flex flex-col gap-1">
                 {SEVERITY.map((s) => (
                   <button key={s} onClick={() => setForm((f) => ({ ...f, severity: s }))}
@@ -145,7 +145,7 @@ export default function HumanInjuryLogScreen({ cats }) {
             </div>
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">Context</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">Context</p>
               <div className="flex flex-wrap gap-2">
                 {CONTEXTS.map((c) => (
                   <button key={c} onClick={() => setForm((f) => ({ ...f, context: c }))}
@@ -155,21 +155,21 @@ export default function HumanInjuryLogScreen({ cats }) {
             </div>
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">Body part affected</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">Body part affected</p>
               <input value={form.bodyPart} onChange={(e) => setForm((f) => ({ ...f, bodyPart: e.target.value }))}
                 placeholder="e.g. Left hand, ankle"
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-container text-sm text-on-surface outline-none" />
             </div>
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">Notes</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">Notes</p>
               <textarea value={form.notes} onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
                 placeholder="What triggered it? What was the cat doing?" rows={3}
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-container text-sm text-on-surface outline-none resize-none" />
             </div>
 
             <div className="mb-5">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">Date</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">Date</p>
               <input type="date" value={form.date} onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-container text-sm text-on-surface outline-none" />
             </div>

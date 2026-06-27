@@ -1,4 +1,4 @@
-import { IcoChevronLeft } from './icons'
+import { IcoChevronLeft, IcoPlus } from './icons'
 
 export function ConfidenceBadge({ confidence }) {
   const styles = {
@@ -148,6 +148,32 @@ export function PageHeader({ title, subtitle, left, right, className = '' }) {
       {right && <div className="flex-shrink-0">{right}</div>}
     </div>
   )
+}
+
+/** Secondary / tool screens — title first, subtitle below */
+export function ToolScreenHeader({ title, subtitle, onBack, action, bordered = false, className = '' }) {
+  return (
+    <div className={`flex items-center gap-3 py-4 ${bordered ? 'border-b border-border-subtle flex-shrink-0' : ''} ${className}`}>
+      {onBack && <BackButton onClick={onBack} />}
+      <div className="flex-1 min-w-0">
+        <h1 className="pm-title !text-lg leading-snug truncate">{title}</h1>
+        {subtitle && <p className="text-caption text-on-surface-muted font-medium mt-0.5 truncate">{subtitle}</p>}
+      </div>
+      {action && <div className="flex-shrink-0">{action}</div>}
+    </div>
+  )
+}
+
+export function AddIconButton({ onClick, label = 'Add' }) {
+  return (
+    <button type="button" onClick={onClick} aria-label={label} className="pm-add-btn">
+      <IcoPlus size={18} color="white" />
+    </button>
+  )
+}
+
+export function FormLabel({ children, className = '' }) {
+  return <p className={`pm-label mb-1.5 ${className}`}>{children}</p>
 }
 
 export function IconButton({ children, label, className = '', ...props }) {

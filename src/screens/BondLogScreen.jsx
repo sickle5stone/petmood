@@ -27,7 +27,7 @@ function EventCard({ event }) {
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-on-surface">{event.moment}</p>
-        <p className="text-xs text-on-surface-muted">{typeInfo.label}</p>
+        <p className="text-caption text-on-surface-muted font-medium">{typeInfo.label}</p>
         {event.notes && <p className="text-xs text-on-surface-muted/70 mt-0.5">{event.notes}</p>}
       </div>
       <span className="text-[11px] text-on-surface-muted flex-shrink-0">
@@ -72,25 +72,25 @@ export default function BondLogScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Bond & Friction Log</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name}</p>
+          <h1 className="pm-title !text-lg leading-snug">Bond & Friction Log</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name}</p>
         </div>
         <button
           onClick={() => { setType('bond'); setMoment(''); setShowAdd(true) }}
-          className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center active:scale-95 transition-transform"
+          className="pm-add-btn"
         >
           <IcoPlus size={16} color="white" />
         </button>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {/* Score card */}
         {bondScore !== null && (
-          <div className="bg-white rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">7-Day Bond Score</p>
+          <div className="pm-card p-5">
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">7-Day Bond Score</p>
             <div className="flex items-center gap-4">
               <div className="relative w-16 h-16">
                 <svg viewBox="0 0 60 60" className="-rotate-90 w-16 h-16">
@@ -107,8 +107,8 @@ export default function BondLogScreen({ cats }) {
                 <p className="text-lg font-semibold text-on-surface">
                   {bondScore >= 70 ? 'Great bond' : bondScore >= 40 ? 'Building trust' : 'Needs attention'}
                 </p>
-                <p className="text-xs text-on-surface-muted">{last7.length} events this week</p>
-                <p className="text-xs text-on-surface-muted">{bonds.length} bond · {friction.length} friction total</p>
+                <p className="text-caption text-on-surface-muted font-medium">{last7.length} events this week</p>
+                <p className="text-caption text-on-surface-muted font-medium">{bonds.length} bond · {friction.length} friction total</p>
               </div>
             </div>
           </div>
@@ -128,7 +128,7 @@ export default function BondLogScreen({ cats }) {
 
         {/* Events timeline */}
         {events.length === 0 ? (
-          <div className="bg-white rounded-2xl p-10 text-center shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="pm-card p-10 text-center">
             <div className="w-14 h-14 rounded-2xl bg-pink-50 flex items-center justify-center mx-auto mb-3">
               <IcoHeart size={24} color="#ec4899" />
             </div>
@@ -137,8 +137,8 @@ export default function BondLogScreen({ cats }) {
           </div>
         ) : (
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">All Events</p>
-            <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">All Events</p>
+            <div className="pm-card px-4">
               {events.slice(0, 30).map((e) => <EventCard key={e.id} event={e} />)}
             </div>
           </div>
@@ -149,7 +149,7 @@ export default function BondLogScreen({ cats }) {
         <div className="fixed inset-0 z-50 flex flex-col justify-end" onClick={() => setShowAdd(false)}>
           <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
           <div
-            className="relative bg-surface rounded-t-3xl p-5 shadow-[0_-8px_40px_rgba(0,0,0,0.12)] animate-[slideUp_0.22s_ease-out] max-h-[85vh] overflow-y-auto"
+            className="pm-sheet animate-[slideUp_0.22s_ease-out]"
             style={{ paddingBottom: 'calc(env(safe-area-inset-bottom,16px)+16px)' }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -167,7 +167,7 @@ export default function BondLogScreen({ cats }) {
             </div>
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">What happened?</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">What happened?</p>
               <div className="flex flex-wrap gap-2">
                 {options.map((opt) => (
                   <button key={opt} onClick={() => setMoment(opt)}
@@ -181,7 +181,7 @@ export default function BondLogScreen({ cats }) {
             </div>
 
             <div className="mb-5">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">Notes (optional)</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">Notes (optional)</p>
               <input value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Add context..."
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-container text-sm text-on-surface outline-none" />
             </div>

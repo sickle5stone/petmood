@@ -28,7 +28,7 @@ function RefillBadge({ date }) {
 
 function MedCard({ med, onToggle, onDelete }) {
   return (
-    <div className={`bg-white rounded-2xl px-4 py-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-opacity ${med.paused ? 'opacity-50' : ''}`}>
+    <div className={`pm-card px-4 py-4 transition-opacity ${med.paused ? 'opacity-50' : ''}`}>
       <div className="flex items-start gap-3">
         <div className="w-9 h-9 rounded-xl bg-purple-100 flex items-center justify-center flex-shrink-0 mt-0.5">
           <IcoPill size={17} color="#7c3aed" />
@@ -37,7 +37,7 @@ function MedCard({ med, onToggle, onDelete }) {
           <div className="flex items-start justify-between gap-2">
             <div>
               <p className="text-sm font-semibold text-on-surface">{med.name}</p>
-              <p className="text-xs text-on-surface-muted">{med.dose} · {med.frequency}</p>
+              <p className="text-caption text-on-surface-muted font-medium">{med.dose} · {med.frequency}</p>
             </div>
             <RefillBadge date={med.refillDate} />
           </div>
@@ -112,23 +112,23 @@ export default function PharmacyLogScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Pharmacy Log</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name}</p>
+          <h1 className="pm-title !text-lg leading-snug">Pharmacy Log</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name}</p>
         </div>
         <button
           onClick={() => setShowAdd(true)}
-          className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center active:scale-95 transition-transform"
+          className="pm-add-btn"
         >
           <IcoPlus size={16} color="white" />
         </button>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {meds.length === 0 ? (
-          <div className="bg-white rounded-2xl p-10 shadow-[0_2px_12px_rgba(0,0,0,0.04)] text-center">
+          <div className="pm-card p-10 text-center">
             <div className="w-14 h-14 rounded-2xl bg-purple-50 flex items-center justify-center mx-auto mb-3">
               <IcoPill size={24} color="#7c3aed" />
             </div>
@@ -142,13 +142,13 @@ export default function PharmacyLogScreen({ cats }) {
           <>
             {active.length > 0 && (
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Active Medications</p>
+                <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Active Medications</p>
                 <div className="flex flex-col gap-3">{active.map((m) => <MedCard key={m.id} med={m} onToggle={handleToggle} onDelete={deleteMed} />)}</div>
               </div>
             )}
             {paused.length > 0 && (
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Paused</p>
+                <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Paused</p>
                 <div className="flex flex-col gap-3 opacity-60">{paused.map((m) => <MedCard key={m.id} med={m} onToggle={handleToggle} onDelete={deleteMed} />)}</div>
               </div>
             )}
@@ -173,18 +173,18 @@ export default function PharmacyLogScreen({ cats }) {
               { label: 'Purpose / Condition', key: 'purpose', placeholder: 'e.g. Inflammation' },
             ].map(({ label, key, placeholder }) => (
               <div key={key} className="mb-3">
-                <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">{label}</p>
+                <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">{label}</p>
                 <input
                   value={form[key]}
                   onChange={(e) => setForm((f) => ({ ...f, [key]: e.target.value }))}
                   placeholder={placeholder}
-                  className="w-full px-4 py-2.5 rounded-xl bg-surface-container text-on-surface text-sm outline-none"
+                  className="pm-input"
                 />
               </div>
             ))}
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">Frequency</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">Frequency</p>
               <div className="flex flex-wrap gap-2">
                 {FREQ_OPTIONS.map((f) => (
                   <button
@@ -201,7 +201,7 @@ export default function PharmacyLogScreen({ cats }) {
             <div className="grid grid-cols-2 gap-3 mb-5">
               {[['startDate', 'Start Date'], ['endDate', 'End Date (optional)'], ['refillDate', 'Refill Date (optional)']].map(([key, label]) => (
                 <div key={key}>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">{label}</p>
+                  <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">{label}</p>
                   <input
                     type="date"
                     value={form[key]}

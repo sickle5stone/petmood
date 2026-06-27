@@ -157,7 +157,7 @@ export default function MoodInsightsScreen({ cats }) {
         <div className="px-5 py-4">
           <h1 className="pm-title">{cat.name}'s Insights</h1>
         </div>
-        <div className="flex flex-col gap-4 px-5">
+        <div className="flex flex-col gap-4 pb-6">
           {[1, 2, 3].map((i) => (
             <div key={i} className="pm-card-inset h-28 animate-pulse" />
           ))}
@@ -170,7 +170,7 @@ export default function MoodInsightsScreen({ cats }) {
 
   return (
     <div className="pm-page pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <div className="flex-1 min-w-0">
           <h1 className="pm-title">{cat.name}'s Insights</h1>
           <p className="text-caption text-on-surface-muted">Mood & behaviour trends</p>
@@ -193,7 +193,7 @@ export default function MoodInsightsScreen({ cats }) {
           onAction={() => navigate('/')}
         />
       ) : (
-        <div className="flex flex-col gap-5 px-5">
+        <div className="flex flex-col gap-5 pb-6">
           {/* Overview stats */}
           <div>
             <p className="pm-label mb-3">Overview</p>

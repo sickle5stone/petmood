@@ -15,7 +15,7 @@ const SUCCESS_COLORS = { Breakthrough: '#ccebc7', 'Good progress': '#bfdbfe', St
 function SessionCard({ session }) {
   const color = SUCCESS_COLORS[session.success] ?? '#f0edef'
   return (
-    <div className="bg-white rounded-2xl px-4 py-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+    <div className="pm-card px-4 py-4">
       <div className="flex items-start gap-3">
         <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: color }}>
           <IcoBook size={16} color="#1b1b1d" />
@@ -27,7 +27,7 @@ function SessionCard({ session }) {
               {session.success}
             </span>
           </div>
-          <p className="text-xs text-on-surface-muted">{session.technique} · {session.duration}min</p>
+          <p className="text-caption text-on-surface-muted font-medium">{session.technique} · {session.duration}min</p>
           {session.notes && <p className="text-xs text-on-surface-muted/70 mt-1.5 leading-snug">{session.notes}</p>}
         </div>
         <span className="text-[11px] text-on-surface-muted flex-shrink-0">
@@ -80,25 +80,25 @@ export default function TrainingLogScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Training Session Log</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name}</p>
+          <h1 className="pm-title !text-lg leading-snug">Training Session Log</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name}</p>
         </div>
         <button
           onClick={() => setShowAdd(true)}
-          className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center active:scale-95 transition-transform"
+          className="pm-add-btn"
         >
           <IcoPlus size={16} color="white" />
         </button>
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {/* Cue library */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted">Cue Library</p>
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted">Cue Library</p>
             <button onClick={() => setShowAddCue(true)} className="text-xs font-semibold text-primary-container">+ Add cue</button>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -116,7 +116,7 @@ export default function TrainingLogScreen({ cats }) {
 
         {/* Sessions */}
         {sessions.length === 0 ? (
-          <div className="bg-white rounded-2xl p-10 text-center shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="pm-card p-10 text-center">
             <div className="w-14 h-14 rounded-2xl bg-amber-50 flex items-center justify-center mx-auto mb-3">
               <IcoBook size={24} color="#92400e" />
             </div>
@@ -125,7 +125,7 @@ export default function TrainingLogScreen({ cats }) {
           </div>
         ) : (
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">
               Sessions ({sessions.length} total)
             </p>
             <div className="flex flex-col gap-3">{sessions.slice(0, 20).map((s) => <SessionCard key={s.id} session={s} />)}</div>
@@ -172,7 +172,7 @@ export default function TrainingLogScreen({ cats }) {
             <p className="text-base font-semibold text-on-surface mb-4">Log training session</p>
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">Cue practiced</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">Cue practiced</p>
               <div className="flex flex-wrap gap-2 mb-2">
                 {cues.map((c) => (
                   <button key={c} onClick={() => setForm((f) => ({ ...f, cue: c }))}
@@ -187,7 +187,7 @@ export default function TrainingLogScreen({ cats }) {
             </div>
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">Technique</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">Technique</p>
               <div className="flex flex-wrap gap-2">
                 {TECHNIQUES.map((t) => (
                   <button key={t} onClick={() => setForm((f) => ({ ...f, technique: t }))}
@@ -200,19 +200,19 @@ export default function TrainingLogScreen({ cats }) {
 
             <div className="grid grid-cols-2 gap-3 mb-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">Duration (min)</p>
+                <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">Duration (min)</p>
                 <input type="number" value={form.duration} onChange={(e) => setForm((f) => ({ ...f, duration: e.target.value }))}
                   className="w-full px-4 py-2.5 rounded-xl bg-surface-container text-sm text-on-surface outline-none" />
               </div>
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">Date</p>
+                <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">Date</p>
                 <input type="date" value={form.date} onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
                   className="w-full px-4 py-2.5 rounded-xl bg-surface-container text-sm text-on-surface outline-none" />
               </div>
             </div>
 
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">Outcome</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">Outcome</p>
               <div className="flex flex-wrap gap-2">
                 {SUCCESS_LEVELS.map((s) => (
                   <button key={s} onClick={() => setForm((f) => ({ ...f, success: s }))}
@@ -225,7 +225,7 @@ export default function TrainingLogScreen({ cats }) {
             </div>
 
             <div className="mb-5">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">Notes</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">Notes</p>
               <textarea value={form.notes} onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
                 placeholder="What happened, what worked..." rows={3}
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-container text-sm text-on-surface outline-none resize-none" />

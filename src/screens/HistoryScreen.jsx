@@ -145,7 +145,7 @@ export default function HistoryScreen({ cats }) {
         <>
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-semibold text-on-surface">Recent reads</p>
-            <p className="text-xs text-on-surface-muted">
+            <p className="text-caption text-on-surface-muted font-medium">
               {new Date().toLocaleString('default', { month: 'short', year: 'numeric' })}
             </p>
           </div>

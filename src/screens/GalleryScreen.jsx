@@ -62,15 +62,15 @@ export default function GalleryScreen({ cats }) {
 
   return (
     <div className="pm-page pm-page-tight pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <BackButton onClick={() => navigate(-1)} />
         <div className="flex-1">
-          <h1 className="font-semibold text-on-surface">Photo Gallery</h1>
-          <p className="text-xs text-on-surface-muted">{cat.name} · {photos.length} photos</p>
+          <h1 className="pm-title !text-lg leading-snug">Photo Gallery</h1>
+          <p className="text-caption text-on-surface-muted font-medium">{cat.name} · {photos.length} photos</p>
         </div>
         <button
           onClick={() => fileRef.current?.click()}
-          className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center active:scale-95 transition-transform"
+          className="pm-add-btn"
         >
           <IcoPlus size={16} color="white" />
         </button>
@@ -79,7 +79,7 @@ export default function GalleryScreen({ cats }) {
 
       <div className="px-5">
         {photos.length === 0 ? (
-          <div className="bg-white rounded-2xl p-10 text-center shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="pm-card p-10 text-center">
             <div className="w-14 h-14 rounded-2xl bg-amber-50 flex items-center justify-center mx-auto mb-3">
               <IcoCamera3 size={24} color="#92400e" />
             </div>
@@ -130,12 +130,12 @@ export default function GalleryScreen({ cats }) {
               </div>
             )}
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-1.5">Caption</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-1.5">Caption</p>
               <input value={caption} onChange={(e) => setCaption(e.target.value)} placeholder="Add a caption..."
                 className="w-full px-4 py-2.5 rounded-xl bg-surface-container text-sm text-on-surface outline-none" />
             </div>
             <div className="mb-5">
-              <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">Tag</p>
+              <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">Tag</p>
               <div className="flex flex-wrap gap-2">
                 {TAGS.map((t) => (
                   <button key={t} onClick={() => setTag(t === tag ? '' : t)}

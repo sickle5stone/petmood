@@ -46,7 +46,7 @@ export default function FeedbackWidget({ readId, catId }) {
             onChange={(e) => setNote(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSubmitNote()}
             placeholder="What was off?"
-            className="flex-1 px-3 py-2.5 rounded-xl text-sm bg-white border border-border outline-none focus:ring-2 focus:ring-primary-container/40 placeholder:text-on-surface-muted/50"
+            className="flex-1 pm-input !py-2"
           />
           <button
             type="button"

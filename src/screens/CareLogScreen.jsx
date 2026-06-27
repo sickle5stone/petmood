@@ -71,7 +71,7 @@ function GoalCard({ Icon, label, value, max, unit, color, onAdd }) {
         </div>
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted">{label}</p>
+        <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted">{label}</p>
         <p className="text-xl font-semibold text-on-surface">
           {value}<span className="text-sm font-normal text-on-surface-muted"> / {max} {unit}</span>
         </p>
@@ -162,7 +162,7 @@ export default function CareLogScreen({ cats }) {
 
   return (
     <div className="pm-page pb-nav">
-      <div className="flex items-center gap-3 px-5 py-4">
+      <div className="flex items-center gap-3 py-4">
         <div className="flex-1 min-w-0">
           <h1 className="pm-title">Care Log</h1>
           <p className="text-caption text-on-surface-muted">{todayStr}</p>
@@ -176,7 +176,7 @@ export default function CareLogScreen({ cats }) {
         <LinkRow Icon={IcoPill} label="Pharmacy" onClick={() => navigate(`/pharmacy/${cat.id}`)} />
       </div>
 
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 pb-6">
         {minsToNextMeal !== null && minsToNextMeal > 0 && (
           <div className="pm-card p-4 flex items-center gap-4">
             <div className="w-12 h-12 rounded-2xl bg-primary-container/10 border border-border-subtle flex items-center justify-center flex-shrink-0">
@@ -189,14 +189,14 @@ export default function CareLogScreen({ cats }) {
                   ? `${Math.floor(minsToNextMeal / 60)}h ${minsToNextMeal % 60}m`
                   : `${minsToNextMeal}m`}
               </p>
-              <p className="text-xs text-on-surface-muted">{nextMeal?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+              <p className="text-caption text-on-surface-muted font-medium">{nextMeal?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
             </div>
           </div>
         )}
 
         {/* Daily goals */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-3">Daily Goals</p>
+          <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-3">Daily Goals</p>
           <div className="flex flex-col gap-3">
             <GoalCard Icon={IcoDroplets} label="Hydration" value={goals.water} max={goals.maxWater} unit="%" color="#bfdbfe" onAdd={() => { setAddType(ENTRY_TYPES[1]); setAddDetail(ENTRY_TYPES[1].options[0]); setShowAdd(true) }} />
             <GoalCard Icon={IcoBowl} label="Meals" value={goals.meals} max={goals.maxMeals} unit="meals" color="#e89a3c" onAdd={() => { setAddType(ENTRY_TYPES[0]); setAddDetail(ENTRY_TYPES[0].options[0]); setShowAdd(true) }} />
@@ -207,7 +207,7 @@ export default function CareLogScreen({ cats }) {
         {/* Today's log */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted">Today's Log</p>
+            <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted">Today's Log</p>
             <button
               onClick={() => { setShowAdd(true); setAddType(null); setAddDetail('') }}
               className="flex items-center gap-1 text-xs font-semibold text-primary-container active:scale-95 transition-transform"
@@ -217,7 +217,7 @@ export default function CareLogScreen({ cats }) {
           </div>
 
           {log.length === 0 ? (
-            <div className="bg-white rounded-2xl p-8 shadow-[0_2px_12px_rgba(0,0,0,0.04)] text-center">
+            <div className="pm-card p-8 text-center">
               <div className="w-12 h-12 rounded-2xl bg-surface-container flex items-center justify-center mx-auto mb-2">
                 <IcoClipboard size={20} color="#857464" />
               </div>
@@ -225,7 +225,7 @@ export default function CareLogScreen({ cats }) {
               <p className="text-xs text-on-surface-muted/70 mt-1">Tap the goal cards above or + Add entry</p>
             </div>
           ) : (
-            <div className="bg-white rounded-2xl px-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <div className="pm-card px-4">
               {log.map((entry) => <LogEntry key={entry.id} entry={entry} />)}
             </div>
           )}
@@ -265,7 +265,7 @@ export default function CareLogScreen({ cats }) {
             {/* Detail picker */}
             {addType && (
               <div className="mb-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-muted mb-2">Detail</p>
+                <p className="text-2xs font-semibold uppercase tracking-label text-on-surface-muted mb-2">Detail</p>
                 <div className="flex flex-wrap gap-2">
                   {addType.options.map((opt) => (
                     <button
